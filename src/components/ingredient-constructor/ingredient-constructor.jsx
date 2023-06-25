@@ -3,29 +3,38 @@ import React from 'react';
 import { DragIcon, LockIcon, DeleteIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function IngredientConstructor(props) {
+  const ingredientStyle = {
+    display: 'flex',
+    backgroundColor: '#1C1C21',
+    gap: '20px',
+    padding: '16px 32px 16px 24px',
+    justifyContent: 'flex-end'
+  }
 
-  const createBorder = () => {
+  const createStyle = () => {
     switch (props.ariaDetails) {
       case 'bunTop':
-        return {borderRadius: '88px 88px 40px 40px'};
+        ingredientStyle.borderRadius = '88px 88px 40px 40px';
+        return ingredientStyle;
       case 'bunBottom':
-        return {borderRadius: '40px 40px 88px 88px'};
+        ingredientStyle.borderRadius = '40px 40px 88px 88px';
+        return ingredientStyle;
       default:
-        return {borderRadius: 40};
+        ingredientStyle.borderRadius = '40px';
+        return ingredientStyle;
     }
   }
-  // Ошибка в консоли на ariaDetails пишет что неопределён.
   return (
-    <div aria-details={props.ariaDetails} key={props._id}>
+    <div className={styles.container} aria-details={props.ariaDetails} key={props._id}>
       {props.ariaDetails === 'default' ? <DragIcon type='primary' /> : ''}
-      <article styles={createBorder}>
-        <img src={props.image} alt={props.name} />
-        <h3>{props.name}</h3>
-        <div>
-          <p>{props.price}</p>
+      <article style={createStyle()}>
+        <img className={styles.image} src={props.image} alt={props.name} />
+        <h3 className='text text_type_main-default'>{props.name}</h3>
+        <div className={styles.price}>
+          <p className='text text_type_digits-default'>{props.price}</p>
           <CurrencyIcon />
         </div>
-        {this.ariaDetails === 'default' ? <DeleteIcon type='primary' /> : <LockIcon type='secondary' />}
+        {props.ariaDetails === 'default' ? <DeleteIcon type='primary' /> : <LockIcon type='secondary' />}
       </article>
     </div>
   )

@@ -4,16 +4,18 @@ import IngredientConstructor from '../ingredient-constructor/ingredient-construc
 
 function BurgerConstructor() {
   return (
-    <form>
-      <div>
-        {/* <IngredientConstructor ariaDetails="bunTop" /> */}
-        <div>
+    <form className={styles.grid}>
+      <div className={styles.ingredients}>
+        <IngredientConstructor ariaDetails="bunTop" />
+        <div className={styles.extra}>
 
         </div>
-        {/* <IngredientConstructor ariaDetails="bunBottom" /> */}
+        <IngredientConstructor ariaDetails="bunBottom" />
       </div>
-      <p>610 <CurrencyIcon /></p>
-      <Button htmlType='submit' size='large' type='primary'>Оформить заказ</Button>
+      <div className={styles.final}>
+        <p className='text text_type_digits-medium'>610 <CurrencyIcon /></p>
+        <Button htmlType='submit' size='large' type='primary'>Оформить заказ</Button>
+      </div>
     </form>
   )
 }
