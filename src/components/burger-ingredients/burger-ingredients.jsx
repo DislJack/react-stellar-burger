@@ -3,7 +3,7 @@ import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
 
-function BurgerIngredients(props) {
+function BurgerIngredients({data, selectIngredient}) {
   const [current, setCurrent] = React.useState('one');
   return (
     <div className={styles.container}>
@@ -14,9 +14,9 @@ function BurgerIngredients(props) {
         <Tab value='three' active={current === 'three'} onClick={setCurrent}>Начинка</Tab>
       </div>
       <div className='custom-scroll' style={{overflowY: 'scroll', display: 'flex', flexDirection: 'column', marginTop: 40, gap: 40}}>
-        <IngredientSection data={props.data} type={'bun'} heading={'Булки'} />
-        <IngredientSection data={props.data} type={'sauce'} heading={'Соусы'} />
-        <IngredientSection data={props.data} type={'main'} heading={'Начинка'} />
+        <IngredientSection data={data} selectIngredient={selectIngredient} type={'bun'} heading={'Булки'} />
+        <IngredientSection data={data} selectIngredient={selectIngredient} type={'sauce'} heading={'Соусы'} />
+        <IngredientSection data={data} selectIngredient={selectIngredient} type={'main'} heading={'Начинка'} />
       </div>
     </div>
   )

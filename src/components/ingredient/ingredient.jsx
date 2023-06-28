@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function Ingredient({ingredient, counting, callBack}) {
-  const [count, setCount] = React.useState(counting);
+function Ingredient({ingredient, selectIngredient}) {
+  const [count, setCount] = React.useState(0);
   const handleClick = () => {
-    // Сделать оптимизацию счётчика через props.type === 'bun'. Если клик по булке, то счётчик должен сбрасывать все счётчики у булок и назначать новый счётчик той булке, которая не была выбрана изначально. А если булка имела счётчик 1 и на неё кликнули, то ничего не менять.
-    /* ingredient.type === 'bun' ? setCount(1) : setCount(count + 1); */
-    callBack();
+    // Если клик по булке, то счётчик должен сбрасывать все счётчики у булок и назначать новый счётчик той булке, которая не была выбрана изначально. А если булка имела счётчик 1 и на неё кликнули, то ничего не менять. Хз как это сделать пока что.
+    selectIngredient(ingredient._id);
     ingredient.type === 'bun' ? setCount(1) : setCount(count + 1);
   }
 
