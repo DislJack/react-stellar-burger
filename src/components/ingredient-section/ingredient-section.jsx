@@ -1,5 +1,5 @@
 import styles from './ingredient-section.module.css';
-import React from 'react';
+import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/ingredient';
 
 
@@ -16,6 +16,14 @@ function IngredientSection({data, burger, type, heading, selectIngredient}) {
       </div>
     </div>
   )
+}
+
+IngredientSection.propTypes = {
+  data: PropTypes.array.isRequired,
+  burger: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
+  selectIngredient: PropTypes.func
 }
 
 export default IngredientSection;

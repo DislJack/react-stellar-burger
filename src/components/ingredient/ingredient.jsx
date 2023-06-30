@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -27,6 +28,12 @@ function Ingredient({ingredient, burger, selectIngredient}) {
       <h3 className='text text_type_main-default'>{ingredient.name}</h3>
     </article>
   )
+}
+
+Ingredient.propTypes = {
+  ingredient: PropTypes.object.isRequired,
+  burger: PropTypes.object.isRequired,
+  selectIngredient: PropTypes.func
 }
 
 export default Ingredient;

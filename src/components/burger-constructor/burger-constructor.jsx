@@ -1,5 +1,6 @@
 import styles from './burger-constrictor.module.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerConstructor({burger, getWindowHeight}) {
@@ -28,6 +29,11 @@ function BurgerConstructor({burger, getWindowHeight}) {
       </div>}
     </form>
   )
+}
+
+BurgerConstructor.propTypes = {
+  burger: PropTypes.object.isRequired,
+  getWindowHeight: PropTypes.func
 }
 
 export default BurgerConstructor;
