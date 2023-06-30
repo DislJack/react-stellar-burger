@@ -2,12 +2,18 @@ import React from 'react';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function Ingredient({ingredient, selectIngredient}) {
-  const [count, setCount] = React.useState(0);
+function Ingredient({ingredient, burger, selectIngredient}) {
+
+  const count = React.useMemo(() => {
+    const {bun, ingredients} = burger;
+    if (ingredient.type === 'bun') {
+      return ingredient._id === bun._id ? 1 : 0;
+    }
+    return ingredients.filter((item) => item._id === ingredient._id).length;
+  }, [burger.bun, burger.ingredients]);
+
   const handleClick = () => {
-    // Если клик по булке, то счётчик должен сбрасывать все счётчики у булок и назначать новый счётчик той булке, которая не была выбрана изначально. А если булка имела счётчик 1 и на неё кликнули, то ничего не менять. Хз как это сделать пока что.
     selectIngredient(ingredient._id);
-    ingredient.type === 'bun' ? setCount(1) : setCount(count + 1);
   }
 
   return (

@@ -3,14 +3,14 @@ import React from 'react';
 import Ingredient from '../ingredient/ingredient';
 
 
-function IngredientSection({data, type, heading, selectIngredient}) {
+function IngredientSection({data, burger, type, heading, selectIngredient}) {
   return (
     <div>
       <h2 className='text text_type_main-medium'>{heading}</h2>
       <div className={styles.grid}>
         {data.map((ingredient) => {
           if (ingredient.type === type) {
-            return <Ingredient ingredient={ingredient} selectIngredient={selectIngredient} key={ingredient._id} />
+            return <Ingredient ingredient={ingredient} burger={burger} selectIngredient={selectIngredient} key={ingredient._id} />
           }
         })}
       </div>

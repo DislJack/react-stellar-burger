@@ -11,21 +11,6 @@ function App() {
     ingredients: []
   });
 
-  const [price, setPrice] = React.useState({
-    bun: null,
-    ingredients: [],
-    total: null
-  });
-
-  const getPrice = (elem) => {
-    elem.type === 'bun' ? setPrice({...price, bun: elem.price}) : setPrice({...price, ingredients: [...price.ingredients, elem.price]});
-  }
-
-  const getTotalPrice = () => {
-    const totalPrice = price.ingredients.reduce((all, current) => all += current)
-    setPrice({...price, total: totalPrice})
-  }
-
   const getWindowHeight = () => {
     return window.innerHeight - 520;
   }
@@ -45,17 +30,15 @@ function App() {
         ]});
     }
   }
-  console.log(price);
+
   const findIngredient = (id) => {
-    getPrice(data.find((elem) => elem._id === id));
-    getTotalPrice();
     addIngredientToBurger(data.find((elem) => elem._id === id));
   }
   return (
     <div className={styles.app}>
       <AppHeader />
       <section className={styles.constructor} id='section'>
-        <BurgerIngredients data={data} selectIngredient={findIngredient} />
+        <BurgerIngredients data={data} burger={burger} selectIngredient={findIngredient} />
         <BurgerConstructor burger={burger} getWindowHeight={getWindowHeight} />
       </section>
     </div>
