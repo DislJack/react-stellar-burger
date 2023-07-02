@@ -1,9 +1,13 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(min-content, max-content));
+  margin: 32px 0 60px;
+  padding: 0 100px;
+  justify-content: center;
+  box-sizing: border-box;
+  list-style-type: none;
   width: 100%;
   gap: 20px;
-  margin-top: 32px;
 }
 
 .numbers {

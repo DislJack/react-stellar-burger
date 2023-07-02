@@ -1,6 +1,5 @@
 import styles from "./app.module.css";
 import React from 'react';
-import { data } from "../../utils/data";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -19,11 +18,20 @@ function App() {
     isLoading: false,
     hasError: false
   });
+  const [modalWindow, setModalWindow] = React.useState({
+    open: false,
+    type: undefined
+  });
   const {data} = state;
 
-  React.useEffect(() => {
-    getData();
-  }, [])
+  const pressESC = (evt) => {
+    if (evt.key === "Escape") {
+      setModalWindow({
+        ...modalWindow,
+        open: false
+      })
+    }
+  }
 
   const getData = () => {
     setState({...state, isLoading: true});
@@ -44,6 +52,14 @@ function App() {
         console.log(`Произошла ошибка №${err}`)
       })
   }
+
+  React.useEffect(() => {
+    getData();
+    document.addEventListener('keydown', pressESC);
+    return () => {
+      document.removeEventListener('keydown', pressESC);
+    }
+  }, [])
 
   const getWindowHeight = () => {
     return window.innerHeight - 520;
@@ -69,19 +85,30 @@ function App() {
     addIngredientToBurger(data.find((elem) => elem._id === id));
   }
 
+  const handleModal = (elem) => {
+    elem.type === 'submit' ? setModalWindow({
+      open: !modalWindow.open,
+      type: elem.type
+    }) : 
+    setModalWindow({
+      open: !modalWindow.open,
+      type: elem
+    });
+  }
 
   const modal = (
-    <Modal>
-      {/* Нужно тут дописать логику выбора наполнения модального окна в зависимости от сработанного эвента через тернарный оператор */}
+    <Modal open={modalWindow.open} handleModal={handleModal}>
+      {modalWindow.type === 'submit' ? <OrderDetails /> : <IngredientDetails ingredient={modalWindow.type} />}
     </Modal>
   )
 
   return (
     <div className={styles.app}>
+      {modalWindow.open && modal}
       <AppHeader />
       <section className={styles.constructor} id='section'>
-        <BurgerIngredients data={data} burger={burger} selectIngredient={findIngredient} />
-        <BurgerConstructor burger={burger} getWindowHeight={getWindowHeight} />
+        <BurgerIngredients data={data} burger={burger} selectIngredient={findIngredient} handleModal={handleModal} />
+        <BurgerConstructor burger={burger} getWindowHeight={getWindowHeight} handleModal={handleModal} />
       </section>
     </div>
   );

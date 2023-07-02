@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/ingredient';
 
 
-function IngredientSection({data, burger, type, heading, selectIngredient}) {
+function IngredientSection({data, burger, type, heading, selectIngredient, handleModal}) {
   return (
     <div>
       <h2 className='text text_type_main-medium'>{heading}</h2>
       <div className={styles.grid}>
         {data.map((ingredient) => {
-          if (ingredient.type === type) {
-            return <Ingredient ingredient={ingredient} burger={burger} selectIngredient={selectIngredient} key={ingredient._id} />
-          }
+          return ingredient.type === type ? <Ingredient ingredient={ingredient} burger={burger} selectIngredient={selectIngredient} handleModal={handleModal} key={ingredient._id} /> : '';
         })}
       </div>
     </div>
@@ -23,7 +21,8 @@ IngredientSection.propTypes = {
   burger: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   heading: PropTypes.string.isRequired,
-  selectIngredient: PropTypes.func
+  selectIngredient: PropTypes.func,
+  handleModal: PropTypes.func
 }
 
 export default IngredientSection;

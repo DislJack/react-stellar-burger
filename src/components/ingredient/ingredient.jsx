@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function Ingredient({ingredient, burger, selectIngredient}) {
+function Ingredient({ingredient, burger, selectIngredient, handleModal}) {
 
   const count = React.useMemo(() => {
     const {bun, ingredients} = burger;
@@ -11,10 +11,11 @@ function Ingredient({ingredient, burger, selectIngredient}) {
       return ingredient._id === bun._id ? 1 : 0;
     }
     return ingredients.filter((item) => item._id === ingredient._id).length;
-  }, [burger.bun, burger.ingredients]);
+  }, [ingredient._id, burger, ingredient.type]);
 
   const handleClick = () => {
     selectIngredient(ingredient._id);
+    handleModal(ingredient);
   }
 
   return (
@@ -33,7 +34,8 @@ function Ingredient({ingredient, burger, selectIngredient}) {
 Ingredient.propTypes = {
   ingredient: PropTypes.object.isRequired,
   burger: PropTypes.object.isRequired,
-  selectIngredient: PropTypes.func
+  selectIngredient: PropTypes.func,
+  handleModal: PropTypes.func
 }
 
 export default Ingredient;
