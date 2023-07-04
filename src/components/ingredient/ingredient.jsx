@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -32,8 +33,11 @@ function Ingredient({ingredient, burger, selectIngredient, handleModal}) {
 }
 
 Ingredient.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  burger: PropTypes.object.isRequired,
+  ingredient: ingredientPropType.isRequired,
+  burger: PropTypes.shape({
+    bun: PropTypes.object,
+    ingredients: PropTypes.arrayOf(ingredientPropType)
+  }),
   selectIngredient: PropTypes.func,
   handleModal: PropTypes.func
 }

@@ -1,5 +1,6 @@
 import styles from './ingredient-section.module.css';
 import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
 import Ingredient from '../ingredient/ingredient';
 
 
@@ -17,8 +18,11 @@ function IngredientSection({data, burger, type, heading, selectIngredient, handl
 }
 
 IngredientSection.propTypes = {
-  data: PropTypes.array.isRequired,
-  burger: PropTypes.object.isRequired,
+  data: PropTypes.arrayOf(ingredientPropType).isRequired,
+  burger: PropTypes.shape({
+    bun: PropTypes.object,
+    ingredients: PropTypes.arrayOf(ingredientPropType)
+  }),
   type: PropTypes.string.isRequired,
   heading: PropTypes.string.isRequired,
   selectIngredient: PropTypes.func,

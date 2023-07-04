@@ -6,6 +6,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { getData } from "../../utils/burger-api";
 
 
 function App() {
@@ -24,41 +25,8 @@ function App() {
   });
   const {data} = state;
 
-  const pressESC = (evt) => {
-    if (evt.key === "Escape") {
-      setModalWindow({
-        ...modalWindow,
-        open: false
-      })
-    }
-  }
-
-  const getData = () => {
-    setState({...state, isLoading: true});
-    fetch('https://norma.nomoreparties.space/api/ingredients', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then(data => setState({...state, isLoading: false, data: data.data}))
-      .catch(err => {
-        setState({...state, hasError: true, isLoading: false});
-        console.log(`Произошла ошибка №${err}`)
-      })
-  }
-
   React.useEffect(() => {
-    getData();
-    document.addEventListener('keydown', pressESC);
-    return () => {
-      document.removeEventListener('keydown', pressESC);
-    }
+    getData(state, setState);
   }, [])
 
   const getWindowHeight = () => {
@@ -97,7 +65,7 @@ function App() {
   }
 
   const modal = (
-    <Modal open={modalWindow.open} handleModal={handleModal}>
+    <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
       {modalWindow.type === 'submit' ? <OrderDetails /> : <IngredientDetails ingredient={modalWindow.type} />}
     </Modal>
   )
