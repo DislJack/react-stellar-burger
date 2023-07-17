@@ -1,0 +1,46 @@
+.grid {
+  display: grid;
+  grid-template-areas: 
+  'ingredients'
+  'final';
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
+  gap: 40px;
+  align-items: center;
+  margin-top: 100px;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.ingredients {
+  grid-area: ingredients;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 16px;
+  overflow-y: hidden;
+}
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+}
+
+.drag {
+  display: flex;
+  gap: 8px;
+  align-items:center;
+  width: 100%;
+}
+
+.final {
+  grid-area: final;
+  justify-self: end;
+  align-self: flex-end;
+  padding: 0 16 52 0;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
