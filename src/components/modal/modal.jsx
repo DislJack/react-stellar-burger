@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import { ModalContext } from '../../services/modalContext';
 const modalRoot = document.getElementById('react-modals');
 
+
 function Modal(props) {
-  const {children, handleModal, modalWindow, setModalWindow} = props;
+  const {handleModal, modalWindow, setModalWindow} = useContext(ModalContext)
+  const {children} = props;
 
   const pressESC = (evt) => {
     if (evt.key === "Escape") {
@@ -37,11 +40,6 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-  modalWindow: PropTypes.shape({
-    open: PropTypes.bool.isRequired
-  }),
-  setModalWindow: PropTypes.func.isRequired,
-  handleModal: PropTypes.func,
   children: PropTypes.element.isRequired
 }
 

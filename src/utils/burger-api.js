@@ -12,6 +12,7 @@ function getData(state, setState) {
       if (res.ok) {
         return res.json();
       }
+      return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then(data => setState({...state, isLoading: false, data: data.data}))
     .catch(err => {
@@ -20,4 +21,22 @@ function getData(state, setState) {
     })
 }
 
-export {getData}
+function createOrder(ingredients) {
+  return fetch(`${address}orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "ingredients": ingredients
+    })
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
+
+export {getData, createOrder}

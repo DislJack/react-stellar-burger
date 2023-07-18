@@ -1,13 +1,29 @@
 import styles from './burger-constrictor.module.css';
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerContext } from '../../services/burgerContext';
+import { ModalContext } from '../../services/modalContext';
+import { createOrder } from '../../utils/burger-api';
 
-function BurgerConstructor({burger, getWindowHeight, handleModal}) {
+function BurgerConstructor({getWindowHeight}) {
+  const {burger} = useContext(BurgerContext);
+  const {handleModal} = useContext(ModalContext);
 
   const handleSubmit = (evt) => {
+    let arr = [];
+    if (burger.bun._id === undefined) {
+      arr = burger.ingredients.map(ingredient => ingredient._id)
+    } else {
+      arr = burger.ingredients.map(ingredient => ingredient._id).concat(burger.bun._id)
+    }
     evt.preventDefault();
-    handleModal(evt);
+    createOrder(arr).then(data => {
+      handleModal(evt, data.order.number);
+    })
+    .catch(err => {
+      console.log(`Произошла ошибка №${err}`)
+    });;
   }
 
   const totalPrice = React.useMemo(() => {
@@ -37,9 +53,7 @@ function BurgerConstructor({burger, getWindowHeight, handleModal}) {
 }
 
 BurgerConstructor.propTypes = {
-  burger: PropTypes.object.isRequired,
-  getWindowHeight: PropTypes.func,
-  handleModal: PropTypes.func
+  getWindowHeight: PropTypes.func
 }
 
 export default BurgerConstructor;

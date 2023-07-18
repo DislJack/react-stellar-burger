@@ -1,13 +1,15 @@
 import styles from './ingredient-details.module.css';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
+import { useContext } from 'react';
+import { ModalContext } from '../../services/modalContext';
 
 
-function IngredientDetails({ingredient}) {
+function IngredientDetails() {
+  const {modalWindow} = useContext(ModalContext);
+  const ingredient = modalWindow.type;
   return (
     <>
       <h2 className='text text_type_main-large ml-10 mr-10' style={{marginTop: 52, alignSelf: 'flex-start'}}>Детали ингредиента</h2>
-      <img className='ml-25 mr-25' src={ingredient.image_large} alt={ingredient.name} />
+      <img className='ml-25 mr-25' src={modalWindow.type.image_large} alt={ingredient.name} />
       <p className='text text_type_main-medium mt-4'>{ingredient.name}</p>
       <ul className={styles.grid}>
         <li className={styles.numbers}>
@@ -29,10 +31,6 @@ function IngredientDetails({ingredient}) {
       </ul>
     </>
   )
-}
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType
 }
 
 export default IngredientDetails;

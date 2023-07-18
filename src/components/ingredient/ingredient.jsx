@@ -1,10 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerContext } from '../../services/burgerContext.jsx';
+import { ModalContext } from '../../services/modalContext.jsx';
 
-function Ingredient({ingredient, burger, selectIngredient, handleModal}) {
+function Ingredient({ingredient}) {
+  const {burger, findIngredient} = useContext(BurgerContext);
+  const {handleModal} = useContext(ModalContext);
 
   const count = React.useMemo(() => {
     const {bun, ingredients} = burger;
@@ -15,7 +18,7 @@ function Ingredient({ingredient, burger, selectIngredient, handleModal}) {
   }, [ingredient._id, burger, ingredient.type]);
 
   const handleClick = () => {
-    selectIngredient(ingredient._id);
+    findIngredient(ingredient._id);
     handleModal(ingredient);
   }
 
@@ -33,13 +36,7 @@ function Ingredient({ingredient, burger, selectIngredient, handleModal}) {
 }
 
 Ingredient.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  burger: PropTypes.shape({
-    bun: PropTypes.object,
-    ingredients: PropTypes.arrayOf(ingredientPropType)
-  }),
-  selectIngredient: PropTypes.func,
-  handleModal: PropTypes.func
+  ingredient: ingredientPropType.isRequired
 }
 
 export default Ingredient;

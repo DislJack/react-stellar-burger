@@ -7,13 +7,17 @@ import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { getData } from "../../utils/burger-api";
+import { ModalContext } from "../../services/modalContext";
+import { StateContext } from "../../services/stateContext";
+import { BurgerContext } from "../../services/burgerContext";
 
 
 function App() {
-  const [burger, setBurger] = React.useState({
+  const initialBurger = {
     bun: {},
     ingredients: []
-  });
+  }
+  const [burger, dispatchBurger] = React.useReducer(reducer, initialBurger, undefined);
   const [state, setState] = React.useState({
     data: [],
     isLoading: false,
@@ -21,9 +25,42 @@ function App() {
   });
   const [modalWindow, setModalWindow] = React.useState({
     open: false,
-    type: undefined
+    type: undefined,
+    orderNumber: null
   });
   const {data} = state;
+
+
+  // Этот редьюсер сортирует элементы в зависимости от action.type. Работают 2 функции: Добавление элементов и удаление элементов из бургера. Все элементы с increment - добавляют в бургер новый ингредиенты. Все элементы с decrement - удаляют элементы из бургера. Dispatch для удаления пока что прописан не будет, но это заготовка на будущее. (Удаляться ингредиенты не будут пока что)
+  function reducer(burger, action) {
+    switch (action.type) {
+      case 'increment-bun': {
+        return {
+          ...burger,
+          bun: action.elem
+        };
+      }
+      case 'decrement-bun': {
+        return {
+          ...burger,
+          bun: initialBurger.bun
+        };
+      }
+      case 'increment-ingredients': {
+        return {
+          ...burger,
+          ingredients: [...burger.ingredients, action.elem]
+        };
+      }
+      case 'decrement-ingredients': {
+        return {
+          ...burger,
+          ingredients: burger.ingredients.filter(ingredient => ingredient._id !== action.elem._id)
+        };
+      }
+      default: throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
 
   React.useEffect(() => {
     getData(state, setState);
@@ -34,51 +71,47 @@ function App() {
   }
 
   const addIngredientToBurger = (elem) => {
-    if (elem.type === 'bun') {
-      setBurger({
-        ...burger, 
-        bun: elem
-      });
-    } else {
-      setBurger({
-        ...burger, 
-        ingredients: [
-          ...burger.ingredients, 
-          elem
-        ]});
-    }
+    elem.type === 'bun' ? dispatchBurger({type: 'increment-bun', elem: elem}) : dispatchBurger({type: 'increment-ingredients', elem: elem});
   }
 
   const findIngredient = (id) => {
     addIngredientToBurger(data.find((elem) => elem._id === id));
   }
 
-  const handleModal = (elem) => {
+  const handleModal = (elem, number) => {
     elem.type === 'submit' ? setModalWindow({
+      orderNumber: number,
       open: !modalWindow.open,
       type: elem.type
     }) : 
     setModalWindow({
+      orderNumber: null,
       open: !modalWindow.open,
       type: elem
     });
   }
 
   const modal = (
-    <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
-      {modalWindow.type === 'submit' ? <OrderDetails /> : <IngredientDetails ingredient={modalWindow.type} />}
+    <Modal>
+      {modalWindow.type === 'submit' ? <OrderDetails /> : <IngredientDetails />}
     </Modal>
   )
 
   return (
-    <div className={styles.app}>
-      {modalWindow.open && modal}
-      <AppHeader />
-      <section className={styles.constructor} id='section'>
-        <BurgerIngredients data={data} burger={burger} selectIngredient={findIngredient} handleModal={handleModal} />
-        <BurgerConstructor burger={burger} getWindowHeight={getWindowHeight} handleModal={handleModal} />
-      </section>
-    </div>
+    <StateContext.Provider value={state}>
+      <BurgerContext.Provider value={{burger, findIngredient}}>
+        <ModalContext.Provider value={{modalWindow, setModalWindow, handleModal}}>
+          <div className={styles.app}>
+            {modalWindow.open && modal}
+            <AppHeader />
+            <section className={styles.constructor} id='section'>
+              <BurgerIngredients />
+              <BurgerConstructor getWindowHeight={getWindowHeight} />
+            </section>
+          </div>
+        </ModalContext.Provider>
+      </BurgerContext.Provider>
+    </StateContext.Provider>
   );
 }
 
