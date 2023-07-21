@@ -2,26 +2,20 @@ import styles from './ingredient-section.module.css';
 import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 import Ingredient from '../ingredient/ingredient';
-import { useContext } from 'react';
-import { StateContext } from '../../services/stateContext';
 
-
-function IngredientSection({type, heading}) {
-  const {data} = useContext(StateContext);
+function IngredientSection({heading, ingredients, handleModal}) {
   return (
     <div>
       <h2 className='text text_type_main-medium'>{heading}</h2>
       <div className={styles.grid}>
-        {data.map((ingredient) => {
-          return ingredient.type === type ? <Ingredient ingredient={ingredient} key={ingredient._id} /> : '';
-        })}
+        {ingredients.map((ingredient) => <Ingredient ingredient={ingredient} handleModal={handleModal} key={ingredient._id} />)}
       </div>
     </div>
   )
 }
 
 IngredientSection.propTypes = {
-  type: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
   heading: PropTypes.string.isRequired
 }
 

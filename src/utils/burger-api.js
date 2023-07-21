@@ -1,8 +1,8 @@
-const address = 'https://norma.nomoreparties.space/api/';
+const address = 'https://norma.nomoreparties.space/api';
 
 function getData(state, setState) {
   setState({...state, isLoading: true});
-  fetch(`${address}ingredients`, {
+  fetch(`${address}/ingredients`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -14,7 +14,11 @@ function getData(state, setState) {
       }
       return Promise.reject(`Ошибка: ${res.status}`);
     })
-    .then(data => setState({...state, isLoading: false, data: data.data}))
+    .then(data => setState({...state, isLoading: false, data: {
+      buns: data.data.filter((ingredient) => ingredient.type === 'bun'),
+      sauces: data.data.filter((ingredient) => ingredient.type === 'sauce'),
+      main: data.data.filter((ingredient) => ingredient.type === 'main')
+    }}))
     .catch(err => {
       setState({...state, hasError: true, isLoading: false});
       console.log(`Произошла ошибка №${err}`)
@@ -22,7 +26,7 @@ function getData(state, setState) {
 }
 
 function createOrder(ingredients) {
-  return fetch(`${address}orders`, {
+  return fetch(`${address}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
