@@ -22,7 +22,7 @@ function BurgerIngredients({data}) {
 
   const modal = (
     <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
-      <IngredientDetails ingredient={modalWindow.type} />
+      {modalWindow.type !== 'submit' ? <IngredientDetails ingredient={modalWindow.type} /> : <div></div>}
     </Modal>
   )
 

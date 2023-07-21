@@ -1,6 +1,5 @@
 import styles from './burger-constrictor.module.css';
 import React, {useContext} from 'react';
-import PropTypes from 'prop-types';
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContext } from '../../services/contexts/burgerContext';
 import { ModalContext } from '../../services/contexts/modalContext';
@@ -73,10 +72,6 @@ function BurgerConstructor() {
       </form>
     </>
   )
-}
-
-BurgerConstructor.propTypes = {
-  getWindowHeight: PropTypes.func
 }
 
 export default BurgerConstructor;

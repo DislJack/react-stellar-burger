@@ -40,7 +40,12 @@ function Modal({children, handleModal, modalWindow, setModalWindow}) {
 }
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  modalWindow: PropTypes.shape({
+    open: PropTypes.bool.isRequired
+  }),
+  handleModal: PropTypes.func,
+  setModalWindow: PropTypes.func.isRequired
 }
 
 export default Modal;

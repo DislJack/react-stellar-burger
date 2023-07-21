@@ -16,7 +16,8 @@ function IngredientSection({heading, ingredients, handleModal}) {
 
 IngredientSection.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  heading: PropTypes.string.isRequired
+  heading: PropTypes.string.isRequired,
+  handleModal: PropTypes.func
 }
 
 export default IngredientSection;

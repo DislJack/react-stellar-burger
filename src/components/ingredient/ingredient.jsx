@@ -4,6 +4,7 @@ import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContext } from '../../services/contexts/burgerContext.jsx';
 import { StateContext } from '../../services/contexts/stateContext.jsx';
+import PropTypes from 'prop-types';
 
 function Ingredient({ingredient, handleModal}) {
   const {burger, dispatchBurger} = useContext(BurgerContext);
@@ -46,7 +47,8 @@ function Ingredient({ingredient, handleModal}) {
 }
 
 Ingredient.propTypes = {
-  ingredient: ingredientPropType.isRequired
+  ingredient: ingredientPropType.isRequired,
+  handleModal: PropTypes.func
 }
 
 export default Ingredient;
