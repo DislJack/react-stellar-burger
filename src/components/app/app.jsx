@@ -4,7 +4,6 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { getData } from "../../utils/burger-api";
-import { ModalContext } from "../../services/contexts/modalContext";
 import { StateContext } from "../../services/contexts/stateContext";
 import { BurgerContext } from "../../services/contexts/burgerContext";
 import { burgerReducer } from "../../services/reducers/burgerReducer";
@@ -34,21 +33,29 @@ function App() {
 
 
   React.useEffect(() => {
-    getData(state, setState);
-  }, []);
+    setState({...state, isLoading: true});
+    getData()
+      .then(data => setState({...state, isLoading: false, data: {
+        buns: data.data.filter((ingredient) => ingredient.type === 'bun'),
+        sauces: data.data.filter((ingredient) => ingredient.type === 'sauce'),
+        main: data.data.filter((ingredient) => ingredient.type === 'main')
+      }}))
+      .catch(err => {
+        setState({...state, hasError: true, isLoading: false});
+        console.log(`Произошла ошибка №${err}`)
+      });
+  }, [setState]);
 
   return (
     <StateContext.Provider value={state}>
       <BurgerContext.Provider value={{burger, dispatchBurger}}>
-        <ModalContext.Provider value={{modalWindow, setModalWindow}}>
-          <div className={styles.app}>
-            <AppHeader />
-            <section className={styles.constructor} id='section'>
-              <BurgerIngredients data={data} />
-              <BurgerConstructor />
-            </section>
-          </div>
-        </ModalContext.Provider>
+        <div className={styles.app}>
+          <AppHeader />
+          <section className={styles.constructor} id='section'>
+            <BurgerIngredients data={data} modalWindow={modalWindow} setModalWindow={setModalWindow} />
+            <BurgerConstructor modalWindow={modalWindow} setModalWindow={setModalWindow} />
+          </section>
+        </div>
       </BurgerContext.Provider>
     </StateContext.Provider>
   );

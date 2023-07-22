@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
@@ -6,11 +6,9 @@ import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../modal/modal.jsx';
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
-import { ModalContext } from '../../services/contexts/modalContext.jsx';
 
-function BurgerIngredients({data}) {
+function BurgerIngredients({data, modalWindow, setModalWindow}) {
   const [current, setCurrent] = React.useState('one');
-  const {modalWindow, setModalWindow} = useContext(ModalContext);
 
   const handleModal = (elem) => {
     setModalWindow({
@@ -21,7 +19,7 @@ function BurgerIngredients({data}) {
   }
 
   const modal = (
-    <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
+    <Modal open={modalWindow.open} onClose={handleModal} setModalWindow={setModalWindow}>
       {modalWindow.type !== 'submit' ? <IngredientDetails ingredient={modalWindow.type} /> : <div></div>}
     </Modal>
   )
@@ -51,7 +49,11 @@ BurgerIngredients.propTypes = {
     buns: PropTypes.arrayOf(ingredientPropType),
     sauces: PropTypes.arrayOf(ingredientPropType),
     main: PropTypes.arrayOf(ingredientPropType)
-  })
+  }),
+  modalWindow: PropTypes.shape({
+    open: PropTypes.bool.isRequired
+  }),
+  setModalWindow: PropTypes.func
 }
 
 export default BurgerIngredients;

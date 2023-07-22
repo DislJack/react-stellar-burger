@@ -19,7 +19,7 @@ function Ingredient({ingredient, handleModal}) {
   }, [ingredient._id, burger, ingredient.type]);
 
   const addIngredientToBurger = (elem) => {
-    elem.type === 'bun' ? dispatchBurger({type: 'ADD-BUN', elem: elem}) : dispatchBurger({type: 'ADD-INGREDIENTS', elem: elem});
+    elem.type === 'bun' ? dispatchBurger({type: 'ADD-BUN', elem: elem}) : dispatchBurger({type: 'ADD-INGREDIENT', elem: elem});
   }
 
   const findIngredient = (id) => {

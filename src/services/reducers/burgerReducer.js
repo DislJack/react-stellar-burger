@@ -15,13 +15,13 @@ function burgerReducer(burger, action) {
         bun: initialBurger.bun
       };
     }
-    case 'ADD-INGREDIENTS': {
+    case 'ADD-INGREDIENT': {
       return {
         ...burger,
         ingredients: [...burger.ingredients, action.elem]
       };
     }
-    case 'REMOVE-INGREDIENTS': {
+    case 'REMOVE-INGREDIENT': {
       return {
         ...burger,
         ingredients: burger.ingredients.filter(ingredient => ingredient._id !== action.elem._id)

@@ -2,14 +2,13 @@ import styles from './burger-constrictor.module.css';
 import React, {useContext} from 'react';
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContext } from '../../services/contexts/burgerContext';
-import { ModalContext } from '../../services/contexts/modalContext';
 import { createOrder } from '../../utils/burger-api';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import PropTypes from 'prop-types';
 
-function BurgerConstructor() {
+function BurgerConstructor({modalWindow, setModalWindow}) {
   const {burger} = useContext(BurgerContext);
-  const {setModalWindow, modalWindow} = useContext(ModalContext);
 
   const getWindowHeight = () => {
     return window.innerHeight - 520;
@@ -47,7 +46,7 @@ function BurgerConstructor() {
   }, [burger.bun, burger.ingredients]);
 
   const modal = (
-    <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
+    <Modal open={modalWindow.open} onClose={handleModal} setModalWindow={setModalWindow}>
       <OrderDetails number={modalWindow.orderNumber} />
     </Modal>
   )
@@ -72,6 +71,14 @@ function BurgerConstructor() {
       </form>
     </>
   )
+}
+
+BurgerConstructor.propTypes = {
+  modalWindow: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+    orderNumber: PropTypes.number
+  }),
+  setModalWindow: PropTypes.func
 }
 
 export default BurgerConstructor;
