@@ -6,43 +6,40 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals');
 
-function Modal(props) {
-  const {children, handleModal, modalWindow, setModalWindow} = props;
 
-  const pressESC = (evt) => {
-    if (evt.key === "Escape") {
-      setModalWindow({
-        ...modalWindow,
-        open: false
-      })
-    }
-  }
+function Modal({children, onClose, open, setModalWindow}) {
 
   React.useEffect(() => {
+    const pressESC = (evt) => {
+      if (evt.key === "Escape") {
+        setModalWindow({open: false});
+      }
+    };
     document.addEventListener('keydown', pressESC);
     return () => {
       document.removeEventListener('keydown', pressESC);
     }
-  }, [])
+  }, [setModalWindow])
 
   return ReactDOM.createPortal(
     (
-      <ModalOverlay open={modalWindow.open} handleModal={handleModal}>
-        <div className={styles.modal} aria-modal={modalWindow.open}>
-          <div className={styles.close}><CloseIcon onClick={handleModal} /></div>
-          {children}
+      <>
+        <div className={styles.container}>
+          <div className={styles.modal} aria-modal={open}>
+            <div className={styles.close}><CloseIcon onClick={onClose} /></div>
+            {children}
+          </div>
         </div>
-      </ModalOverlay>
+        <ModalOverlay open={open} handleModal={onClose}></ModalOverlay>
+      </>
     ), modalRoot)
 }
 
 Modal.propTypes = {
-  modalWindow: PropTypes.shape({
-    open: PropTypes.bool.isRequired
-  }),
-  setModalWindow: PropTypes.func.isRequired,
-  handleModal: PropTypes.func,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func,
+  setModalWindow: PropTypes.func.isRequired
 }
 
 export default Modal;

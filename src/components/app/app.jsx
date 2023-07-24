@@ -3,82 +3,61 @@ import React from 'react';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Modal from '../modal/modal';
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import { getData } from "../../utils/burger-api";
+import { StateContext } from "../../services/contexts/stateContext";
+import { BurgerContext } from "../../services/contexts/burgerContext";
+import { burgerReducer } from "../../services/reducers/burgerReducer";
+export const initialBurger = {
+  bun: {},
+  ingredients: []
+};
 
 
 function App() {
-  const [burger, setBurger] = React.useState({
-    bun: {},
-    ingredients: []
-  });
+  const [burger, dispatchBurger] = React.useReducer(burgerReducer, initialBurger, undefined);
   const [state, setState] = React.useState({
-    data: [],
+    data: {
+      buns: [],
+      sauces: [],
+      main: []
+    },
     isLoading: false,
     hasError: false
   });
   const [modalWindow, setModalWindow] = React.useState({
     open: false,
-    type: undefined
+    type: undefined,
+    orderNumber: null
   });
   const {data} = state;
 
+
   React.useEffect(() => {
-    getData(state, setState);
-  }, [])
-
-  const getWindowHeight = () => {
-    return window.innerHeight - 520;
-  }
-
-  const addIngredientToBurger = (elem) => {
-    if (elem.type === 'bun') {
-      setBurger({
-        ...burger, 
-        bun: elem
+    setState({...state, isLoading: true});
+    getData()
+      .then(data => setState({...state, isLoading: false, data: {
+        buns: data.data.filter((ingredient) => ingredient.type === 'bun'),
+        sauces: data.data.filter((ingredient) => ingredient.type === 'sauce'),
+        main: data.data.filter((ingredient) => ingredient.type === 'main')
+      }}))
+      .catch(err => {
+        setState({...state, hasError: true, isLoading: false});
+        console.log(`Произошла ошибка №${err}`)
       });
-    } else {
-      setBurger({
-        ...burger, 
-        ingredients: [
-          ...burger.ingredients, 
-          elem
-        ]});
-    }
-  }
-
-  const findIngredient = (id) => {
-    addIngredientToBurger(data.find((elem) => elem._id === id));
-  }
-
-  const handleModal = (elem) => {
-    elem.type === 'submit' ? setModalWindow({
-      open: !modalWindow.open,
-      type: elem.type
-    }) : 
-    setModalWindow({
-      open: !modalWindow.open,
-      type: elem
-    });
-  }
-
-  const modal = (
-    <Modal modalWindow={modalWindow} handleModal={handleModal} setModalWindow={setModalWindow}>
-      {modalWindow.type === 'submit' ? <OrderDetails /> : <IngredientDetails ingredient={modalWindow.type} />}
-    </Modal>
-  )
+  }, [setState]);
 
   return (
-    <div className={styles.app}>
-      {modalWindow.open && modal}
-      <AppHeader />
-      <section className={styles.constructor} id='section'>
-        <BurgerIngredients data={data} burger={burger} selectIngredient={findIngredient} handleModal={handleModal} />
-        <BurgerConstructor burger={burger} getWindowHeight={getWindowHeight} handleModal={handleModal} />
-      </section>
-    </div>
+    <StateContext.Provider value={state}>
+      <BurgerContext.Provider value={{burger, dispatchBurger}}>
+        <div className={styles.app}>
+          <AppHeader />
+          <section className={styles.constructor} id='section'>
+            <BurgerIngredients data={data} modalWindow={modalWindow} setModalWindow={setModalWindow} />
+            <BurgerConstructor modalWindow={modalWindow} setModalWindow={setModalWindow} />
+          </section>
+        </div>
+      </BurgerContext.Provider>
+    </StateContext.Provider>
   );
 }
 

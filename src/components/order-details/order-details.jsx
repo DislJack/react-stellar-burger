@@ -2,10 +2,10 @@ import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-function OrderDetails() {
+function OrderDetails(props) {
   return (
     <div className={styles.order}>
-      <h2 className='text text_type_digits-large'>034536</h2>
+      <h2 className='text text_type_digits-large'>{props.number}</h2>
       <p className='text text_type_main-medium mt-8'>Идентификатор заказа</p>
       <div className={styles.confirmation}>
         <div className={styles.big}></div>

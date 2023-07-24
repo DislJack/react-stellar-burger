@@ -1,13 +1,41 @@
 import styles from './burger-constrictor.module.css';
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react';
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerContext } from '../../services/contexts/burgerContext';
+import { createOrder } from '../../utils/burger-api';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import PropTypes from 'prop-types';
 
-function BurgerConstructor({burger, getWindowHeight, handleModal}) {
+function BurgerConstructor({modalWindow, setModalWindow}) {
+  const {burger} = useContext(BurgerContext);
+
+  const getWindowHeight = () => {
+    return window.innerHeight - 520;
+  }
+
+  const handleModal = (elem, number) => {
+    setModalWindow({
+      orderNumber: number,
+      open: !modalWindow.open,
+      type: elem.type
+    })
+  }
 
   const handleSubmit = (evt) => {
+    let arr = [];
+    if (burger.bun._id === undefined) {
+      arr = burger.ingredients.map(ingredient => ingredient._id)
+    } else {
+      arr = burger.ingredients.map(ingredient => ingredient._id).concat(burger.bun._id)
+    }
     evt.preventDefault();
-    handleModal(evt);
+    createOrder(arr).then(data => {
+      handleModal(evt, data.order.number);
+    })
+    .catch(err => {
+      console.log(`Произошла ошибка №${err}`)
+    });;
   }
 
   const totalPrice = React.useMemo(() => {
@@ -17,29 +45,40 @@ function BurgerConstructor({burger, getWindowHeight, handleModal}) {
     }, bun);
   }, [burger.bun, burger.ingredients]);
 
+  const modal = (
+    <Modal open={modalWindow.open} onClose={handleModal} setModalWindow={setModalWindow}>
+      <OrderDetails number={modalWindow.orderNumber} />
+    </Modal>
+  )
+
   return (
-    <form className={styles.grid} onSubmit={handleSubmit}>
-      <div className={styles.ingredients}>
-        {burger.bun._id === undefined ? '' : <ConstructorElement text={burger.bun.name + ' (верх)'} price={burger.bun.price} thumbnail={burger.bun.image} type='top' key={burger.bun._id + 'top'} extraClass='pr-8 mr-4' isLocked={true} />}
-        <ul className='custom-scroll' style={{display: 'flex', padding: '0 6px 0 0', listStyleType: 'none', margin: 0, flexDirection: 'column', gap: '16px', overflowY: 'scroll', maxHeight: getWindowHeight(), boxSizing: 'border-box'}}>
-          {burger.ingredients.map((ingredient, index) => {
-            return <li className={styles.drag}><DragIcon /><ConstructorElement text={ingredient.name} price={ingredient.price} thumbnail={ingredient.image} key={ingredient._id + index} /></li>
-          })}
-        </ul>
-        {burger.bun._id === undefined ? '' : <ConstructorElement text={burger.bun.name + ' (низ)'} price={burger.bun.price} thumbnail={burger.bun.image} type='bottom' key={burger.bun._id + 'bottom'} extraClass='pr-8 mr-4' isLocked={true} />}
-      </div>
-      {burger.bun._id === undefined && burger.ingredients.length === 0 ? '' : <div className={styles.final}>
-        <p className='text text_type_digits-medium' style={{display: 'flex', alignItems: 'center', gap: 8}}>{totalPrice}<CurrencyIcon /></p>
-        <Button htmlType='submit' size='large' type='primary'>Оформить заказ</Button>
-      </div>}
-    </form>
+    <>
+      {modalWindow.open && modalWindow.type === 'submit' && modal}
+      <form className={styles.grid} onSubmit={handleSubmit}>
+        <div className={styles.ingredients}>
+          {burger.bun._id === undefined ? '' : <ConstructorElement text={burger.bun.name + ' (верх)'} price={burger.bun.price} thumbnail={burger.bun.image} type='top' key={burger.bun._id + 'top'} extraClass='pr-8 mr-4' isLocked={true} />}
+          <ul className='custom-scroll' style={{display: 'flex', padding: '0 6px 0 0', listStyleType: 'none', margin: 0, flexDirection: 'column', gap: '16px', overflowY: 'scroll', maxHeight: getWindowHeight(), boxSizing: 'border-box'}}>
+            {burger.ingredients.map((ingredient, index) => {
+              return <li className={styles.drag}><DragIcon /><ConstructorElement text={ingredient.name} price={ingredient.price} thumbnail={ingredient.image} key={ingredient._id + index} /></li>
+            })}
+          </ul>
+          {burger.bun._id === undefined ? '' : <ConstructorElement text={burger.bun.name + ' (низ)'} price={burger.bun.price} thumbnail={burger.bun.image} type='bottom' key={burger.bun._id + 'bottom'} extraClass='pr-8 mr-4' isLocked={true} />}
+        </div>
+        {burger.bun._id === undefined && burger.ingredients.length === 0 ? '' : <div className={styles.final}>
+          <p className='text text_type_digits-medium' style={{display: 'flex', alignItems: 'center', gap: 8}}>{totalPrice}<CurrencyIcon /></p>
+          <Button htmlType='submit' size='large' type='primary'>Оформить заказ</Button>
+        </div>}
+      </form>
+    </>
   )
 }
 
 BurgerConstructor.propTypes = {
-  burger: PropTypes.object.isRequired,
-  getWindowHeight: PropTypes.func,
-  handleModal: PropTypes.func
+  modalWindow: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+    orderNumber: PropTypes.number
+  }),
+  setModalWindow: PropTypes.func
 }
 
 export default BurgerConstructor;
