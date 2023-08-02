@@ -1,6 +1,6 @@
 const address = 'https://norma.nomoreparties.space/api';
 
-function getData() {
+function getDataRequest() {
   return fetch(`${address}/ingredients`, {
     method: 'GET',
     headers: {
@@ -15,7 +15,7 @@ function getData() {
     })
 }
 
-function createOrder(ingredients) {
+function createOrderRequest(ingredients) {
   return fetch(`${address}/orders`, {
     method: 'POST',
     headers: {
@@ -33,4 +33,4 @@ function createOrder(ingredients) {
     });
 }
 
-export {getData, createOrder}
+export {getDataRequest, createOrderRequest}

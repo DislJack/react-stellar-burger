@@ -1,39 +1,37 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerContext } from '../../services/contexts/burgerContext.jsx';
-import { StateContext } from '../../services/contexts/stateContext.jsx';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import { openModalWithIngredient } from '../../services/actions/modal-ingredient.js';
+import { useDrag } from 'react-dnd';
 
-function Ingredient({ingredient, handleModal}) {
-  const {burger, dispatchBurger} = useContext(BurgerContext);
-  const {data} = useContext(StateContext);
+function Ingredient({ingredient}) {
+  const {bun, ingredients} = useSelector(store => ({
+    bun: store.burger.bun,
+    ingredients: store.burger.ingredients
+  }));
+  const dispatch = useDispatch();
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: ingredient
+  });
 
   const count = React.useMemo(() => {
-    const {bun, ingredients} = burger;
     if (ingredient.type === 'bun') {
       return ingredient._id === bun._id ? 1 : 0;
     }
     return ingredients.filter((item) => item._id === ingredient._id).length;
-  }, [ingredient._id, burger, ingredient.type]);
-
-  const addIngredientToBurger = (elem) => {
-    elem.type === 'bun' ? dispatchBurger({type: 'ADD-BUN', elem: elem}) : dispatchBurger({type: 'ADD-INGREDIENT', elem: elem});
-  }
-
-  const findIngredient = (id) => {
-    addIngredientToBurger(data.buns.concat(data.sauces, data.main).find((elem) => elem._id === id));
-  }
+  }, [ingredient._id, bun, ingredients, ingredient.type]);
 
   const handleClick = () => {
-    findIngredient(ingredient._id);
-    handleModal(ingredient);
+    dispatch(openModalWithIngredient(ingredient));
   }
 
   return (
     <>
-      <article className={styles.ingredient} onClick={handleClick}>
+      <article ref={dragRef} className={styles.ingredient} onClick={handleClick}>
         {count === 0 ? '' : <Counter count={count} />}
         <img src={ingredient.image} alt={ingredient.name} />
         <div className={styles.price}>
