@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { removeIngredient } from '../../services/actions/burger-constructor';
 import { useRef } from 'react';
 import {useDrag, useDrop} from 'react-dnd';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
 
 function DraggableElement({ingredient, index, moveIngredient}) {
   const dispatch = useDispatch();
@@ -53,6 +55,12 @@ function DraggableElement({ingredient, index, moveIngredient}) {
       <li ref={dragRef} className={styles.drag} style={{opacity: opacity}} ><DragIcon /><ConstructorElement text={ingredient.name} price={ingredient.price} thumbnail={ingredient.image} key={ingredient.key} handleClose={e=> deleteElement(e,  ingredient)} /></li>
     </>
   )
+}
+
+DraggableElement.propTypes = {
+  ingredient: ingredientPropType.isRequired,
+  index: PropTypes.number.isRequired,
+  moveIngredient: PropTypes.func
 }
 
 export default DraggableElement;

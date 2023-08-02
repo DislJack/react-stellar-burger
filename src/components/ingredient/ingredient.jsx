@@ -2,7 +2,6 @@ import React from 'react';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { openModalWithIngredient } from '../../services/actions/modal-ingredient.js';
 import { useDrag } from 'react-dnd';
@@ -45,8 +44,7 @@ function Ingredient({ingredient}) {
 }
 
 Ingredient.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  handleModal: PropTypes.func
+  ingredient: ingredientPropType.isRequired
 }
 
 export default Ingredient;
