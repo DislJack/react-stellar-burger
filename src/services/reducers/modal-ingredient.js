@@ -1,4 +1,4 @@
-import { OPEN_MODAL, CLOSE_MODAL, CHOOSE_INGREDIENT, CLEAR_MODAL_WINDOW } from "../actions/modal-ingredient"
+import { OPEN_MODAL, CLOSE_MODAL } from "../actions/modal-ingredient"
 
 const initialState = {
   open: false,
@@ -10,24 +10,14 @@ const modalIngredientReducer = (modal = initialState, action) => {
     case OPEN_MODAL: {
       return {
         ...modal,
-        open: true
+        open: true,
+        ingredient: action.ingredient
       }
     }
     case CLOSE_MODAL: {
       return {
         ...modal,
-        open: false
-      }
-    }
-    case CHOOSE_INGREDIENT: {
-      return {
-        ...modal,
-        ingredient: action.ingredient
-      }
-    }
-    case CLEAR_MODAL_WINDOW: {
-      return {
-        ...modal,
+        open: false,
         ingredient: undefined
       }
     }

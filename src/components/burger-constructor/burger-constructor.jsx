@@ -8,14 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import createOrder from '../../services/actions/final-order';
 import {addIngredient, updateIngredientsList} from '../../services/actions/burger-constructor';
 import { useDrop } from 'react-dnd';
+import { selectBurger, selectModal, selectOrderNumber } from '../../services/selectors';
 
 function BurgerConstructor() {
-  const burger = useSelector(store => store.burger);
-  const {open, ingredient, number} = useSelector(store => ({
-    open: store.modal.open,
-    ingredient: store.modal.ingredient,
-    number: store.order.number
-  }));
+  const burger = useSelector(selectBurger);
+  const {open, ingredient} = useSelector(selectModal);
+  const number = useSelector(selectOrderNumber);
   const dispatch = useDispatch();
   const [, dropTarget] = useDrop({
     accept: 'ingredient',

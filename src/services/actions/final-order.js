@@ -1,10 +1,12 @@
 import { createOrderRequest } from "../../utils/burger-api";
-import { OPEN_MODAL, CHOOSE_INGREDIENT } from "./modal-ingredient";
+import { OPEN_MODAL } from "./modal-ingredient";
 
-export const CREATE_ORDER = 'CREATE_ORDER';
-export const SEND_ORDER = 'SEND_ORDER';
+export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
+export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
+export const CREATE_ORDER_FAILURE = 'CREATE_ORDER_FAILURE';
 
 const createOrder = (burger) => (dispatch) => {
+  dispatch({type: CREATE_ORDER_REQUEST});
   let arr = [];
     if (burger.bun._id === undefined) {
       arr = burger.ingredients.map(ingredient => ingredient._id);
@@ -12,13 +14,12 @@ const createOrder = (burger) => (dispatch) => {
       arr = burger.ingredients.map(ingredient => ingredient._id).concat(burger.bun._id);
     }
   createOrderRequest(arr).then(data => {
-    dispatch({type: CREATE_ORDER, ingredients: arr});
-    dispatch({type: SEND_ORDER, number: data.order.number});
-    dispatch({type: OPEN_MODAL});
-    dispatch({type: CHOOSE_INGREDIENT, ingredient: 'submit'})
+    dispatch({type: CREATE_ORDER_SUCCESS, ingredients: arr, number: data.order.number});
+    dispatch({type: OPEN_MODAL, ingredient: 'submit'});
   })
   .catch(err => {
-    console.log(`Произошла ошибка №${err}`)
+    dispatch({type: CREATE_ORDER_FAILURE});
+    console.log(`Произошла ошибка №${err}`);
   });;
 }
 

@@ -6,13 +6,11 @@ import Modal from '../modal/modal.jsx';
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import getData from '../../services/actions/ingredient-list';
+import { selectIngredientList, selectModal } from '../../services/selectors';
 
 function BurgerIngredients() {
-  const {data, open, ingredient} = useSelector(store => ({
-    data: store.state.data,
-    open: store.modal.open,
-    ingredient: store.modal.ingredient
-  }));
+  const data = useSelector(selectIngredientList);
+  const {open, ingredient} = useSelector(selectModal);
   const [current, setCurrent] = React.useState('bun');
   const dispatch = useDispatch();
   const tabs = useRef();

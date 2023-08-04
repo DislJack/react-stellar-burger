@@ -1,4 +1,4 @@
-import { GET_INGREDIENTS, IS_LOADING, HAS_ERROR } from "../actions/ingredient-list";
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILURE } from "../actions/ingredient-list";
 
 const initialState = {
   data: {
@@ -12,20 +12,20 @@ const initialState = {
 
 const stateReducer = (state = initialState, action) => {
   switch (action.type) {
-    case IS_LOADING: {
+    case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
         isLoading: true
       }
     }
-    case HAS_ERROR: {
+    case GET_INGREDIENTS_FAILURE: {
       return {
         ...state,
         isLoading: false,
         hasError: true
       }
     }
-    case GET_INGREDIENTS: {
+    case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         isLoading: false,

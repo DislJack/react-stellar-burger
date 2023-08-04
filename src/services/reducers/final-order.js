@@ -1,22 +1,33 @@
-import { CREATE_ORDER, SEND_ORDER } from "../actions/final-order";
+import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAILURE } from "../actions/final-order";
 
 const initialOrder = {
   ingredients: [],
-  number: ''
+  number: '',
+  isLoading: false,
+  hasError: false
 }
 
 const finalOrderReducer = (order = initialOrder, action) => {
   switch (action.type) {
-    case CREATE_ORDER: {
+    case CREATE_ORDER_REQUEST: {
       return {
         ...order,
-        ingredients: action.ingredients
+        isLoading: true
       }
     }
-    case SEND_ORDER: {
+    case CREATE_ORDER_SUCCESS: {
       return {
         ...order,
+        isLoading: false,
+        ingredients: action.ingredients,
         number: action.number
+      }
+    }
+    case CREATE_ORDER_FAILURE: {
+      return {
+        ...order,
+        hasError: true,
+        isLoading: false
       }
     }
     default: return order

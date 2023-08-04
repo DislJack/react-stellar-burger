@@ -5,12 +5,10 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { useDispatch, useSelector } from "react-redux";
 import { openModalWithIngredient } from '../../services/actions/modal-ingredient.js';
 import { useDrag } from 'react-dnd';
+import { selectBurger } from '../../services/selectors.js';
 
 function Ingredient({ingredient}) {
-  const {bun, ingredients} = useSelector(store => ({
-    bun: store.burger.bun,
-    ingredients: store.burger.ingredients
-  }));
+  const burger = useSelector(selectBurger);
   const dispatch = useDispatch();
   const [, dragRef] = useDrag({
     type: 'ingredient',
@@ -19,10 +17,10 @@ function Ingredient({ingredient}) {
 
   const count = React.useMemo(() => {
     if (ingredient.type === 'bun') {
-      return ingredient._id === bun._id ? 1 : 0;
+      return ingredient._id === burger.bun._id ? 1 : 0;
     }
-    return ingredients.filter((item) => item._id === ingredient._id).length;
-  }, [ingredient._id, bun, ingredients, ingredient.type]);
+    return burger.ingredients.filter((item) => item._id === ingredient._id).length;
+  }, [ingredient._id, burger.bun, burger.ingredients, ingredient.type]);
 
   const handleClick = () => {
     dispatch(openModalWithIngredient(ingredient));
