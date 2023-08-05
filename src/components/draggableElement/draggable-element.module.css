@@ -1,0 +1,6 @@
+.drag {
+  display: flex;
+  gap: 8px;
+  align-items:center;
+  width: 100%;
+}

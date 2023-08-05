@@ -28,13 +28,6 @@
   overflow-y: scroll;
 }
 
-.drag {
-  display: flex;
-  gap: 8px;
-  align-items:center;
-  width: 100%;
-}
-
 .final {
   grid-area: final;
   justify-self: end;
