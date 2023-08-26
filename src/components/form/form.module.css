@@ -1,0 +1,12 @@
+.heading {
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 80px;
+}
