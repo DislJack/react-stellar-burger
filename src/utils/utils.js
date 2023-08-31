@@ -1,5 +1,7 @@
 function navigate(address) {
-  window.location.assign(`${window.location.origin}${address}`);
+  window.history.replaceState(null, "", `${window.location.origin}${address}`);
+  window.history.go();
+  console.log(window.location);
 }
 
 function saveTokens(accessToken, refreshToken) {

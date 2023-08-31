@@ -1,7 +1,7 @@
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import {Link, Redirect} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Container from "../../components/container/container";
 import AppHeader from "../../components/app-header/app-header";
@@ -13,6 +13,8 @@ import { forgotPassword } from "../../services/actions/auth";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
+  const [redirect, setRedirect] = useState(false);
+  const user = useSelector(store => store.user.user);
   const dispatch = useDispatch();
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -20,18 +22,32 @@ function ForgotPasswordPage() {
 
   const onSubmitForgot = (e) => {
     e.preventDefault();
+    localStorage.setItem('acceptAccess', true);
     dispatch(forgotPassword(email));
+    setRedirect(true);
   }
+
+  useEffect(() => {
+    localStorage.removeItem('acceptAccess');
+  }, [])
+
+  if (user.name) {
+    return (<Redirect to="/" />)
+  }
+
   return (
-    <Container >
-      <AppHeader />
-      <FormContainer >
-        <Form headingText={'Восстановление пароля'} buttonText={'Восстановить'} onSubmitForm={onSubmitForgot} >
-          <EmailInput value={email} onChange={onChangeEmail} placeholder="Укажите E-mail" isIcon={false} />
-        </Form>
-        <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
-      </FormContainer>
-    </Container>
+    <>
+      {redirect === true && <Redirect to="/reset-password" />}
+      <Container >
+        <AppHeader />
+        <FormContainer >
+          <Form headingText={'Восстановление пароля'} buttonText={'Восстановить'} onSubmitForm={onSubmitForgot} >
+            <EmailInput value={email} onChange={onChangeEmail} placeholder="Укажите E-mail" isIcon={false} />
+          </Form>
+          <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
+        </FormContainer>
+      </Container>
+    </>
   )
 }
 

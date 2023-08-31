@@ -82,7 +82,7 @@ function authUser() {
   })
 }
 
-function updateUserData(username, email, password) {
+function updateUserDataRequest(username, email, password) {
   return request(`${address}/auth/user`, {
     method: 'PATCH',
     headers: {
@@ -137,4 +137,4 @@ function logoutUserRequest() {
   })
 }
 
-export {getDataRequest, createOrderRequest, registerUserRequest, forgotPasswordRequest, resetPasswordRequest, authUser, refreshTokenUser, updateUserData, loginUserRequest, logoutUserRequest}
+export {getDataRequest, createOrderRequest, registerUserRequest, forgotPasswordRequest, resetPasswordRequest, authUser, refreshTokenUser, updateUserDataRequest, loginUserRequest, logoutUserRequest}

@@ -1,8 +1,10 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED } from "../actions/auth";
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, SAVE_USER_PASSWORD, AUTH_LOGOUT } from "../actions/auth";
 
 const initialAuth = {
   isLoading: false,
-  hasError: false
+  hasError: false,
+  isUserLoaded: false,
+  password: ''
 }
 
 function authReducer(auth = initialAuth, action) {
@@ -17,7 +19,8 @@ function authReducer(auth = initialAuth, action) {
     case AUTH_SUCCESS: {
       return {
         ...auth,
-        isLoading: false
+        isLoading: false,
+        isUserLoaded: true
       }
     }
     case AUTH_FAILED: {
@@ -25,6 +28,19 @@ function authReducer(auth = initialAuth, action) {
         ...auth,
         isLoading: false,
         hasError: true
+      }
+    }
+    case SAVE_USER_PASSWORD: {
+      return {
+        ...auth,
+        password: action.password
+      }
+    }
+    case AUTH_LOGOUT: {
+      return {
+        ...auth,
+        isUserLoaded: false,
+        password: ''
       }
     }
     default: return auth

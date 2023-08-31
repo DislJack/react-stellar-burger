@@ -19,7 +19,7 @@ function AppHeader() {
         <div className={styles.logo}>
           <Logo />
         </div>
-        <Link to='/login' style={{textDecoration: 'none'}} ><Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', display: 'flex', gap: 8}} extraClass='pt-4 pb-4 pl-5 text text_type_main-default text_color_inactive'>
+        <Link to='/profile' style={{textDecoration: 'none'}} ><Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', display: 'flex', gap: 8}} extraClass='pt-4 pb-4 pl-5 text text_type_main-default text_color_inactive'>
           <ProfileIcon type='secondary' />
           Личный кабинет
         </Button></Link>
