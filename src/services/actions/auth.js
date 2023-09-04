@@ -1,6 +1,6 @@
 // Импорты функций запроса к API
-import { registerUserRequest, forgotPasswordRequest, resetPasswordRequest, loginUserRequest } from "../../utils/burger-api";
-import { saveTokens } from "../../utils/utils";
+import { forgotPasswordRequest, resetPasswordRequest } from "../../utils/burger-api";
+
 
 
 
@@ -9,11 +9,12 @@ import { saveTokens } from "../../utils/utils";
 
 
 // Экшены 
-export const AUTH_REQUEST = 'AUTH_REQUEST';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_FAILED = 'AUTH_FAILED';
-export const SAVE_USER_PASSWORD = 'SAVE_USER_PASSWORD';
-export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+
+export const SEND_CODE_TO_EMAIL_SUCCESS = 'SEND_CODE_TO_EMAIL_SUCCESS';
+
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+
+
 
 
 
@@ -23,50 +24,27 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 // Экшен креаторы для функций
 
-const registerUser = (username, email, password) => (dispatch) => {
-  dispatch({type: AUTH_REQUEST});
-  registerUserRequest(username, email, password).then(data => {
-    dispatch({type: AUTH_SUCCESS});
-    saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
-  }).catch(err => {
-    dispatch({type: AUTH_FAILED});
-    console.log(err);
-  })
-}
-
-const forgotPassword = (email) => (dispatch) => {
-  dispatch({type: AUTH_REQUEST});
+const forgotPassword = (email, history) => (dispatch) => {
   forgotPasswordRequest(email).then(() => {
-    dispatch({type: AUTH_SUCCESS})
+    dispatch({type: SEND_CODE_TO_EMAIL_SUCCESS})
+    // Экшен на успешное направление кода сброса пароля
   })
   .catch(err => {
-    dispatch({type: AUTH_FAILED});
-    console.log(err);
+    // Переадресация на страницу ошибки
+    history.push('/error', { errorNumber: err.split(' ')[1]});
   });
 }
 
-const resetPassword = (password, token) => (dispatch) => {
-  dispatch({type: AUTH_REQUEST});
+const resetPassword = (password, token, history) => (dispatch) => {
   resetPasswordRequest(password, token).then(() => {
-    dispatch({type: AUTH_SUCCESS});
+    dispatch({type: RESET_PASSWORD_SUCCESS});
+    // экшен на успешный сброс.
   })
   .catch(err => {
-    dispatch({type: AUTH_FAILED});
-    console.log(err);
+    // Переадресация на страницу ошибки.
+    history.replace('/error', { errorNumber: err.split(' ')[1]});
   })
 }
 
-const loginUser = (email, password) => (dispatch) => {
-  dispatch({type: AUTH_REQUEST});
-  loginUserRequest(email, password).then(data => {
-    dispatch({type: AUTH_SUCCESS});
-    dispatch({type: SAVE_USER_PASSWORD, password: password});
-    saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
-  })
-  .catch(err => {
-    dispatch({type: AUTH_FAILED});
-    console.log(err);
-  })
-}
 
-export {registerUser, forgotPassword, resetPassword, loginUser}
+export { forgotPassword, resetPassword}

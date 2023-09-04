@@ -1,46 +1,23 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, SAVE_USER_PASSWORD, AUTH_LOGOUT } from "../actions/auth";
+import { SEND_CODE_TO_EMAIL_SUCCESS, RESET_PASSWORD_SUCCESS } from "../actions/auth";
 
 const initialAuth = {
-  isLoading: false,
-  hasError: false,
-  isUserLoaded: false,
-  password: ''
+  emailSent: false,
+  passwordReset: false
 }
 
 function authReducer(auth = initialAuth, action) {
   switch (action.type) {
-    case AUTH_REQUEST: {
+    case SEND_CODE_TO_EMAIL_SUCCESS: {
       return {
         ...auth,
-        isLoading: true,
-        hasError: false
+        emailSent: true
       }
     }
-    case AUTH_SUCCESS: {
+    case RESET_PASSWORD_SUCCESS: {
       return {
         ...auth,
-        isLoading: false,
-        isUserLoaded: true
-      }
-    }
-    case AUTH_FAILED: {
-      return {
-        ...auth,
-        isLoading: false,
-        hasError: true
-      }
-    }
-    case SAVE_USER_PASSWORD: {
-      return {
-        ...auth,
-        password: action.password
-      }
-    }
-    case AUTH_LOGOUT: {
-      return {
-        ...auth,
-        isUserLoaded: false,
-        password: ''
+        emailSent: false,
+        passwordReset: true
       }
     }
     default: return auth

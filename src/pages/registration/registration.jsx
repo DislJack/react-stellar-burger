@@ -1,23 +1,22 @@
 import { Input, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useEffect } from "react";
-import {Link, Redirect} from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
 import AppHeader from "../../components/app-header/app-header";
 import Container from "../../components/container/container";
 import FormContainer from "../../components/form-container/form-container";
 import Form from "../../components/form/form";
 
-import { registerUser } from "../../services/actions/auth";
+import { registerUser } from "../../services/actions/user-data";
 
 
 function RegistrationPage() {
-  const [redirect, setRedirect] = useState(false);
   const [iconShow, setIconShow] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const user = useSelector(store => store.user.user);
+  const history = useHistory();
   const dispatch = useDispatch();
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -35,23 +34,15 @@ function RegistrationPage() {
 
   const submitRegistrationForm = (e) => {
     e.preventDefault();
-    dispatch(registerUser(name, email, password));
-    setRedirect(true);
+    dispatch(registerUser(name, email, password, history));
   }
 
   useEffect(() => {
     localStorage.removeItem('acceptAccess');
   }, [])
 
-  if (user.name) {
-    return (
-      <Redirect to="/" />
-    )
-  }
-
   return (
     <>
-      {redirect === true && <Redirect to="/" />}
       <Container>
         <AppHeader />
         <FormContainer>

@@ -13,7 +13,27 @@
 }
 
 .image {
-  width: 50%;
+  width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
+  position: relative;
+}
+
+.image_error_container {
+  width: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: end;
+}
+
+.error {
+  color: #8585ad;
+  position: absolute;
+  bottom: 0;
+  font-size: 100px;
+  font-weight: 900;
+  padding: 0;
+  margin: 0;
 }

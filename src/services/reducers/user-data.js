@@ -1,51 +1,45 @@
-import { GET_USER_DATA_REQUEST, GET_USER_DATA_SUCCESS, GET_USER_DATA_FAILED, UPDATE_USER_DATA_REQUEST, UPDATE_USER_DATA_SUCCESS, UPDATE_USER_DATA_FAILED } from "../actions/user-data";
+import { GET_USER_DATA, UPDATE_USER_DATA, REGISTER_USER_SUCCESS, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "../actions/user-data";
 
 const initialUserData = {
-  isLoading: false,
-  hasError: false,
-  user: {}
+  user: {},
+  isUserLoaded: false
 }
 
 function getUserDataReducer(userData = initialUserData, action) {
   switch (action.type) {
-    case GET_USER_DATA_REQUEST: {
+    case GET_USER_DATA: {
       return {
         ...userData,
-        isLoading: true
+        user: action.user,
+        isUserLoaded: true
       }
     }
-    case GET_USER_DATA_SUCCESS: {
+    case UPDATE_USER_DATA: {
       return {
         ...userData,
-        isLoading: false,
-        user: action.user
+        user: action.user,
+        isUserLoaded: true
       }
     }
-    case GET_USER_DATA_FAILED: {
+    case REGISTER_USER_SUCCESS: {
       return {
         ...userData,
-        isLoading: false,
-        hasError: true
+        user: action.user,
+        isUserLoaded: true
       }
     }
-    case UPDATE_USER_DATA_REQUEST: {
+    case LOGIN_SUCCESS: {
       return {
         ...userData,
-        isLoading: true
+        user: action.user,
+        isUserLoaded: true
       }
     }
-    case UPDATE_USER_DATA_SUCCESS: {
+    case LOGOUT_SUCCESS: {
       return {
         ...userData,
-        isLoading: false,
-        user: action.user
-      }
-    }
-    case UPDATE_USER_DATA_FAILED: {
-      return {
-        ...userData,
-        isLoading: false,
-        hasError: true
+        user: {},
+        isUserLoaded: false
       }
     }
     default: return userData;
