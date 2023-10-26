@@ -1,17 +1,11 @@
 import { authUser, logoutUserRequest, refreshTokenUser, updateUserDataRequest, loginUserRequest, registerUserRequest } from "../../utils/burger-api";
 import { saveTokens } from "../../utils/utils";
 
-export const GET_USER_DATA = 'GET_USER_DATA';
-export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
-
-export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
-
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const SET_USER = 'SET_USER';
+export const SET_AUTH_CHECKED = 'SET_AUTH_CHECKED';
 
 
-const getUserData = (history) => (dispatch) => {
+/* const getUserData = () => (dispatch) => {
   authUser().then(data => {
     dispatch({type: GET_USER_DATA, user: data.user});
   }).catch(err => {
@@ -25,19 +19,23 @@ const getUserData = (history) => (dispatch) => {
         });
       });
     }
-    history.replace('/login');
   })
+} */
+
+// utils error function
+function throwError(err, history) {
+  history.replace('/error', { errorNumber: err.split(' ')[1]});
 }
 
 const updateUserData = (name, email, password, history) => (dispatch) => {
   updateUserDataRequest(name, email, password).then(data => {
-    dispatch({type: UPDATE_USER_DATA, user: data.user});
+    dispatch({type: SET_USER, user: data.user});
   }).catch((err) => {
     if (err.message === 'jwt expired') {
       refreshTokenUser().then(data => {
         saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
         updateUserDataRequest(name, email, password).then(data => {
-          dispatch({type: UPDATE_USER_DATA, user: data.user});
+          dispatch({type: SET_USER, user: data.user});
         });
       }).catch(() => {
         localStorage.clear();
@@ -46,22 +44,44 @@ const updateUserData = (name, email, password, history) => (dispatch) => {
       });
     } else {
       // Переадресация на страницу ошибки
-      throwError(err, history)
-      return Promise.reject(err);
+      throwError(err, history);
     }
   })
 }
 
-
-// utils error function
-function throwError(err, history) {
-  history.replace('/error', { errorNumber: err.split(' ')[1]});
+const checkUserAuth = (history) => (dispatch) => {
+  if (localStorage.getItem('accessToken')) {
+    authUser().then(data => {
+      dispatch({type: SET_USER, user: data.user})
+    }).catch((err) => {
+      if (err.message === 'jwt expired') {
+        refreshTokenUser().then(data => {
+          saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
+          authUser().then(data => {
+            dispatch({type: SET_USER, user: data.user})
+          }).catch(err => {
+            throwError(err, history);
+          })
+        }).catch(err => {
+          throwError(err, history);
+        })
+      } else {
+        localStorage.clear();
+        dispatch({type: SET_USER, user: {}});
+      }
+    }).finally(() => {
+      dispatch({type: SET_AUTH_CHECKED});
+    })
+  } else {
+    dispatch({type: SET_AUTH_CHECKED});
+  }
 }
+
 
 
 const registerUser = (username, email, password, history) => (dispatch) => {
   registerUserRequest(username, email, password).then(data => {
-    dispatch({type: REGISTER_USER_SUCCESS, user: data.user})
+    dispatch({type: SET_USER, user: data.user})
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
     history.replace('/');
   }).catch(err => {
@@ -72,7 +92,7 @@ const registerUser = (username, email, password, history) => (dispatch) => {
 
 const loginUser = (email, password, history) => (dispatch) => {
   loginUserRequest(email, password).then(data => {
-    dispatch({LOGIN_SUCCESS, user: data.user})
+    dispatch({type: SET_USER, user: data.user});
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
     history.replace('/');
   })
@@ -89,9 +109,9 @@ const logoutUser = (history) => (dispatch) => {
     // Переадресация на страницу ошибки
     throwError(err, history);
   }).finally(() => {
-    dispatch({LOGOUT_SUCCESS})
+    dispatch({type: SET_USER, user: {}})
     localStorage.clear();
   })
 }
 
-export {getUserData, updateUserData, registerUser, loginUser, logoutUser};
+export {checkUserAuth, registerUser, loginUser, logoutUser, updateUserData};

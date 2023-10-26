@@ -6,3 +6,8 @@
   margin-top: 24px;
   box-sizing: border-box;
 }
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
+}

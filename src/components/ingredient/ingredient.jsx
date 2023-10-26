@@ -22,13 +22,13 @@ function Ingredient({ingredient}) {
     return burger.ingredients.filter((item) => item._id === ingredient._id).length;
   }, [ingredient._id, burger.bun, burger.ingredients, ingredient.type]);
 
-  const handleClick = () => {
+  /* const handleClick = () => {
     dispatch(openModalWithIngredient(ingredient));
-  }
+  } */
 
   return (
     <>
-      <article ref={dragRef} className={styles.ingredient} onClick={handleClick}>
+      <article ref={dragRef} className={styles.ingredient} /* onClick={handleClick} */>
         {count === 0 ? '' : <Counter count={count} />}
         <img src={ingredient.image} alt={ingredient.name} />
         <div className={styles.price}>

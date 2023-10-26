@@ -1,20 +1,13 @@
 import { useEffect } from "react";
 import {getUserData} from "../../services/actions/user-data";
 import { useDispatch, useSelector } from "react-redux";
-import {Redirect, useLocation, useHistory} from 'react-router-dom';
+import {Redirect, useLocation, Route} from 'react-router-dom';
 
 
-function ProtectedElementPage({onlyUnAuth = false, element}) {
+function ProtectedElementPage({onlyUnAuth = false, children, ...rest}) {
   const isUserLoaded = useSelector(store => store.user.isUserLoaded);
   const location = useLocation();
-  const history = useHistory();
   const user = useSelector(store => store.user.user);
-  const dispatch = useDispatch();
-
-
-  useEffect(() => {
-    dispatch(getUserData(history));
-  }, [dispatch, history])
 
   if (!isUserLoaded) {
     console.log('А может тут')
@@ -35,10 +28,11 @@ function ProtectedElementPage({onlyUnAuth = false, element}) {
     }} />
   }
 
-  return element
+  return (
+    <Route {...rest} >
+      {children}
+    </Route>
+  )
 }
 
-export const OnlyAuth = ProtectedElementPage;
-export const OnlyUnAuth = ({element}) => {
-  <ProtectedElementPage onlyUnAuth={true} element={element} />
-};
+export default ProtectedElementPage;

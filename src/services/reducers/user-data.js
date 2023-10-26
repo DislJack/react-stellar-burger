@@ -1,4 +1,4 @@
-import { GET_USER_DATA, UPDATE_USER_DATA, REGISTER_USER_SUCCESS, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "../actions/user-data";
+import { SET_USER, SET_AUTH_CHECKED } from "../actions/user-data";
 
 const initialUserData = {
   user: {},
@@ -7,39 +7,16 @@ const initialUserData = {
 
 function getUserDataReducer(userData = initialUserData, action) {
   switch (action.type) {
-    case GET_USER_DATA: {
+    case SET_AUTH_CHECKED: {
       return {
         ...userData,
-        user: action.user,
         isUserLoaded: true
       }
     }
-    case UPDATE_USER_DATA: {
+    case SET_USER: {
       return {
         ...userData,
-        user: action.user,
-        isUserLoaded: true
-      }
-    }
-    case REGISTER_USER_SUCCESS: {
-      return {
-        ...userData,
-        user: action.user,
-        isUserLoaded: true
-      }
-    }
-    case LOGIN_SUCCESS: {
-      return {
-        ...userData,
-        user: action.user,
-        isUserLoaded: true
-      }
-    }
-    case LOGOUT_SUCCESS: {
-      return {
-        ...userData,
-        user: {},
-        isUserLoaded: false
+        user: action.user
       }
     }
     default: return userData;

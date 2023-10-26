@@ -6,17 +6,18 @@ import { updateUserData, logoutUser } from '../../services/actions/user-data';
 
 import AppHeader from "../../components/app-header/app-header";
 import Container from "../../components/container/container";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function ProfilePage() {
   const history = useHistory();
+  const user = useSelector(store => store.user.user);
   const [userName, setUserName] = useState({
-    name: '',
+    name: user.name,
     boolean: false
   });
   const [login, setLogin] = useState({
-    name: '',
+    name: user.email,
     boolean: false
   });
   const [password, setPassword] = useState({
@@ -79,21 +80,21 @@ function ProfilePage() {
       ...userName,
       boolean: false
     });
-    dispatch(updateUserData(userName, login, password));
+    dispatch(updateUserData(userName, login, password, history));
   }
   const onBlurLogin = () => {
     setLogin({
       ...login,
       boolean: false
     });
-    dispatch(updateUserData(userName, login, password));
+    dispatch(updateUserData(userName, login, password, history));
   }
   const onBlurPassword = () => {
     setPassword({
       ...password,
       boolean: false
     });
-    dispatch(updateUserData(userName, login, password));
+    dispatch(updateUserData(userName, login, password, history));
   }
 
   const logoutUserClick = () => {
