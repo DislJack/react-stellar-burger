@@ -2,14 +2,12 @@ import React, { useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
-import { useSelector, useDispatch } from 'react-redux';
-import getData from '../../services/actions/ingredient-list';
+import { useSelector } from 'react-redux';
 import { selectIngredientList } from '../../services/selectors';
 
 function BurgerIngredients() {
   const data = useSelector(selectIngredientList);
   const [current, setCurrent] = React.useState('bun');
-  const dispatch = useDispatch();
   const tabs = useRef();
   const bun = useRef();
   const sauce = useRef();
@@ -30,10 +28,6 @@ function BurgerIngredients() {
       setCurrent('main');
     }
   }
-
-  React.useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
 
   return (
     <>

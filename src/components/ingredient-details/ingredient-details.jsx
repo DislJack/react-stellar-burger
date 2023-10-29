@@ -8,6 +8,7 @@ function IngredientDetails() {
   const data = useSelector(selectIngredientList);
   const ingredients = data.buns.concat(data.sauces, data.main);
   const ingredient = ingredients.find(ing => ing._id === ingredientId);
+  
   return (
     <>
       <h2 className='text text_type_main-large ml-10 mr-10' style={{marginTop: 52, alignSelf: 'flex-start'}}>Детали ингредиента</h2>

@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Switch, Route, useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, useLocation, useHistory} from 'react-router-dom';
 import { useEffect } from 'react';
 import HomePage from '../../pages/home/home';
 import LoginPage from '../../pages/login/login';
@@ -12,6 +12,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/actions/user-data';
+import getData from '../../services/actions/ingredient-list';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(getData());
   }, [])
 
   return (
@@ -31,6 +33,11 @@ function App() {
 function Switcher() {
   const location = useLocation();
   const background = location.state && location.state.background;
+  const history = useHistory();
+
+  const closeModal = () => {
+    history.go(-1);
+  }
   return (
     <>
       <Switch location={background || location}>
@@ -56,7 +63,7 @@ function Switcher() {
       {background && (
         <Switch>
           <Route path="/ingredients/:ingredientId" exact children={
-            <Modal>
+            <Modal onClose={closeModal}>
               <IngredientDetails />
             </Modal>
           } />
