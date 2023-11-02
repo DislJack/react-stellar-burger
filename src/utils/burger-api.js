@@ -85,7 +85,9 @@ function authUser() {
 function updateUserDataRequest(username, email, password) {
   return request(`${address}/auth/user`, {
     method: 'PATCH',
-    mode: 'no-cors',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + localStorage.getItem('accessToken')

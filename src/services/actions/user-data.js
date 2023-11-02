@@ -22,6 +22,8 @@ export const SET_AUTH_CHECKED = 'SET_AUTH_CHECKED';
   })
 } */
 
+/* function updateUserInfo() */
+
 // utils error function
 function throwError(err, history) {
   history.replace('/error', { errorNumber: err.split(' ')[1]});
@@ -31,6 +33,7 @@ const updateUserData = (name, email, password, history) => (dispatch) => {
   updateUserDataRequest(name, email, password).then(data => {
     dispatch({type: SET_USER, user: data.user});
   }).catch((err) => {
+    console.log(err);
     if (err.message === 'jwt expired') {
       refreshTokenUser().then(data => {
         saveTokens(data.accessToken.split(' ')[1], data.refreshToken);

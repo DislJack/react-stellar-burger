@@ -57,7 +57,10 @@ function Switcher() {
         <ProtectedElementPage path="/profile" exact >
           <ProfilePage />
         </ProtectedElementPage>
-        <Route path="/ingredients/:ingredientId" exact children={<IngredientDetails />} />
+        <Route path="/ingredients/:ingredientId" exact children={
+          <Modal onClose={closeModal}>
+            <IngredientDetails />
+          </Modal>} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
       {background && (

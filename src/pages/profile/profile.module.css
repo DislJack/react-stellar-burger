@@ -18,3 +18,7 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.link {
+  text-decoration: none;
+}
