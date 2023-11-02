@@ -3,7 +3,6 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon, Button } from '@ya.praktikum/r
 import {Link} from 'react-router-dom';
 
 function AppHeader() {
-  console.log(window.location.pathname);
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
