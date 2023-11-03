@@ -30,3 +30,13 @@
   display: flex;
   padding: 0;
 }
+
+.link {
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.active {
+  composes: link;
+  color: #F2F2F3;
+}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import createOrder from '../../services/actions/final-order';
 import {addIngredient, updateIngredientsList} from '../../services/actions/burger-constructor';
 import { useDrop } from 'react-dnd';
+import { closeAndCLearModal } from '../../services/actions/modal-ingredient';
 import { selectBurger, selectModal, selectOrderNumber } from '../../services/selectors';
 
 function BurgerConstructor() {
@@ -31,6 +32,10 @@ function BurgerConstructor() {
     dispatch(createOrder(burger));
   }
 
+  const closeModal = () => {
+    dispatch(closeAndCLearModal());
+  }
+
   const totalPrice = React.useMemo(() => {
     const bun = burger.bun.price ? burger.bun.price*2 : 0;
     return burger.ingredients.reduce((all, item) => {
@@ -44,7 +49,7 @@ function BurgerConstructor() {
   }
 
   const modal = (
-    <Modal open={open}>
+    <Modal onClose={closeModal}>
       <OrderDetails number={number} />
     </Modal>
   )

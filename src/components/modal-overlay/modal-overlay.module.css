@@ -5,11 +5,5 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  translate: -100% 0;
   z-index: 1;
-}
-
-.active {
-  composes: overlay;
-  translate: 0 0;
 }

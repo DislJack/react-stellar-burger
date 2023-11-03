@@ -1,23 +1,79 @@
-import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {BrowserRouter as Router, Switch, Route, useLocation, useHistory} from 'react-router-dom';
+import { useEffect } from 'react';
+import HomePage from '../../pages/home/home';
+import LoginPage from '../../pages/login/login';
+import RegistrationPage from '../../pages/registration/registration';
+import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password/reset-password';
+import ProfilePage from '../../pages/profile/profile';
+import NotFoundPage from '../../pages/404-not-found/404-not-found';
+import ProtectedElementPage from '../../pages/protected-element/protected-element';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch } from 'react-redux';
+import { checkUserAuth } from '../../services/actions/user-data';
+import getData from '../../services/actions/ingredient-list';
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+    dispatch(getData());
+  }, [])
+
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <section className={styles.constructor} id='section'>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </section>
-    </div>
+    <Router>
+      <Switcher />
+    </Router>
   );
+}
+
+function Switcher() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const history = useHistory();
+
+  const closeModal = () => {
+    history.go(-1);
+  }
+  return (
+    <>
+      <Switch location={background || location}>
+        <Route path="/" exact children={<HomePage />} />
+        <ProtectedElementPage path="/login" onlyUnAuth exact >
+          <LoginPage />
+        </ProtectedElementPage>
+        <ProtectedElementPage path="/registration" onlyUnAuth exact >
+          <RegistrationPage />
+        </ProtectedElementPage>
+        <ProtectedElementPage path="/forgot-password" onlyUnAuth exact >
+          <ForgotPasswordPage />
+        </ProtectedElementPage>
+        <ProtectedElementPage path="/reset-password" onlyUnAuth exact >
+          <ResetPasswordPage />
+        </ProtectedElementPage>
+        <ProtectedElementPage path="/profile" exact >
+          <ProfilePage />
+        </ProtectedElementPage>
+        <Route path="/ingredients/:ingredientId" exact children={
+          <Modal onClose={closeModal}>
+            <IngredientDetails />
+          </Modal>} />
+        <Route path="*" children={<NotFoundPage />} />
+      </Switch>
+      {background && (
+        <Switch>
+          <Route path="/ingredients/:ingredientId" exact children={
+            <Modal onClose={closeModal}>
+              <IngredientDetails />
+            </Modal>
+          } />
+        </Switch>
+      )}
+    </>
+  )
 }
 
 export default App;

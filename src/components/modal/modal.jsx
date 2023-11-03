@@ -5,21 +5,16 @@ import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { useDispatch } from 'react-redux';
-import { closeAndCLearModal } from '../../services/actions/modal-ingredient';
 const modalRoot = document.getElementById('react-modals');
 
 
-function Modal({children, open}) {
+function Modal({children, onClose}) {
   const dispatch = useDispatch();
-
-  const onClose = () => {
-    dispatch(closeAndCLearModal());
-  }
 
   React.useEffect(() => {
     const pressESC = (evt) => {
       if (evt.key === "Escape") {
-        dispatch(closeAndCLearModal());
+        onClose();
       }
     };
     document.addEventListener('keydown', pressESC);
@@ -32,19 +27,18 @@ function Modal({children, open}) {
     (
       <>
         <div className={styles.container}>
-          <div className={styles.modal} aria-modal={open}>
+          <div className={styles.modal}>
             <div className={styles.close}><CloseIcon onClick={onClose} /></div>
             {children}
           </div>
         </div>
-        <ModalOverlay open={open} handleModal={onClose}></ModalOverlay>
+        <ModalOverlay handleModal={onClose}></ModalOverlay>
       </>
     ), modalRoot)
 }
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  open: PropTypes.bool.isRequired
+  children: PropTypes.element.isRequired
 }
 
 export default Modal;

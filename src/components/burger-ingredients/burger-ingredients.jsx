@@ -2,17 +2,12 @@ import React, { useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
-import Modal from '../modal/modal.jsx';
-import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
-import { useSelector, useDispatch } from 'react-redux';
-import getData from '../../services/actions/ingredient-list';
-import { selectIngredientList, selectModal } from '../../services/selectors';
+import { useSelector } from 'react-redux';
+import { selectIngredientList } from '../../services/selectors';
 
 function BurgerIngredients() {
   const data = useSelector(selectIngredientList);
-  const {open, ingredient} = useSelector(selectModal);
   const [current, setCurrent] = React.useState('bun');
-  const dispatch = useDispatch();
   const tabs = useRef();
   const bun = useRef();
   const sauce = useRef();
@@ -34,19 +29,8 @@ function BurgerIngredients() {
     }
   }
 
-  React.useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
-
-  const modal = (
-    <Modal open={open}>
-      {ingredient !== 'submit' ? <IngredientDetails ingredient={ingredient} /> : <div></div>}
-    </Modal>
-  )
-
   return (
     <>
-      {open && typeof ingredient === 'object' && modal}
       <div className={styles.container}>
         <h1 className='text text_type_main-large mt-10'>Соберите бургер</h1>
         <div className={styles.tab} ref={tabs} >
