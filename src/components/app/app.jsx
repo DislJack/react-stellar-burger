@@ -7,12 +7,15 @@ import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password/reset-password';
 import ProfilePage from '../../pages/profile/profile';
 import NotFoundPage from '../../pages/404-not-found/404-not-found';
+import FeedPage from '../../pages/feed/feed';
 import ProtectedElementPage from '../../pages/protected-element/protected-element';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/actions/user-data';
 import getData from '../../services/actions/ingredient-list';
+import PersonalOrders from '../../pages/order-history/order-history';
+
 
 
 function App() {
@@ -21,7 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getData());
-  }, [])
+  }, [dispatch])
 
   return (
     <Router>
@@ -57,6 +60,10 @@ function Switcher() {
         <ProtectedElementPage path="/profile" exact >
           <ProfilePage />
         </ProtectedElementPage>
+        <ProtectedElementPage path="/profile/orders" exact>
+          <PersonalOrders />
+        </ProtectedElementPage>
+        <Route path="/feed" exact children={<FeedPage />}/>
         <Route path="/ingredients/:ingredientId" exact children={
           <Modal onClose={closeModal}>
             <IngredientDetails />

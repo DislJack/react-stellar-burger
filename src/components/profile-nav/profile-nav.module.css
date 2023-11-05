@@ -1,0 +1,12 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+}
+.link {
+  text-decoration: none;
+}
+
+.white {
+  color: #F2F2F3;
+}

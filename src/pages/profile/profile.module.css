@@ -8,17 +8,8 @@
   align-items: flex-start;
 }
 
-.nav {
-  display: flex;
-  flex-direction: column;
-}
-
 .properties {
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-.link {
-  text-decoration: none;
 }

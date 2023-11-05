@@ -2,14 +2,12 @@ import React from 'react';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from "react-redux";
-import { openModalWithIngredient } from '../../services/actions/modal-ingredient.js';
+import { useSelector } from "react-redux";
 import { useDrag } from 'react-dnd';
 import { selectBurger } from '../../services/selectors.js';
 
 function Ingredient({ingredient}) {
   const burger = useSelector(selectBurger);
-  const dispatch = useDispatch();
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient
@@ -22,13 +20,9 @@ function Ingredient({ingredient}) {
     return burger.ingredients.filter((item) => item._id === ingredient._id).length;
   }, [ingredient._id, burger.bun, burger.ingredients, ingredient.type]);
 
-  /* const handleClick = () => {
-    dispatch(openModalWithIngredient(ingredient));
-  } */
-
   return (
     <>
-      <article ref={dragRef} className={styles.ingredient} /* onClick={handleClick} */>
+      <article ref={dragRef} className={styles.ingredient}>
         {count === 0 ? '' : <Counter count={count} />}
         <img src={ingredient.image} alt={ingredient.name} />
         <div className={styles.price}>

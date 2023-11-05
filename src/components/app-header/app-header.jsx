@@ -7,14 +7,14 @@ function AppHeader() {
     <header className={styles.header}>
       <div className={styles.wrapper}>
         <div className={styles.orderButton}>
-          <Link to="/" className={window.location.pathname === '/' ? styles.active : styles.link}><Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', color: window.location.pathname === '/' ? '#F2F2F3' : '#8585ad', display: 'flex', gap: 8}} extraClass='pt-4 pb-4 pr-5 text text_type_main-default'>
+          <Link to="/" className={styles.link}><Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', color: window.location.pathname === '/' ? '#F2F2F3' : '#8585ad', display: 'flex', gap: 8}} extraClass={'pt-4 pb-4 pr-5 text text_type_main-default'}>
             <BurgerIcon type={window.location.pathname === '/' ? 'primary' : 'secondary'} />
             Конструктор
           </Button></Link>
-          <Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', display: 'flex', gap: 8}} extraClass='pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive'>
-            <ListIcon type={'secondary'} />
+          <Link to="/feed" className={styles.link} ><Button htmlType='button' type='secondary' size='small' style={{ position: 'relative', zIndex: 1, textAlign: 'center', alignItems: 'center', color: window.location.pathname === '/feed' ? '#F2F2F3' : '#8585ad', display: 'flex', gap: 8}} extraClass='pt-4 pb-4 pr-5 pl-5 text text_type_main-default'>
+            <ListIcon type={window.location.pathname === '/feed' ? 'primary' : 'secondary'} />
             Лента заказов
-          </Button>
+          </Button></Link>
         </div>
         <div className={styles.logo}>
           <Logo />
