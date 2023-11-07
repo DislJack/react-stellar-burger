@@ -28,10 +28,25 @@
 
 .link {
   text-decoration: none;
-  color: #8585ad;
+  color: #F2F2F3;
 }
 
-.active {
-  composes: link;
+.button {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 8px;
   color: #F2F2F3;
+}
+
+.inactive {
+  composes: button;
+  color: #8585ad;
+  transition: 0.3s ease-in;
+}
+
+.inactive:hover {
+  color: #F2F2F3
 }
