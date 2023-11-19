@@ -5,3 +5,8 @@
   gap: 16px;
   overflow-y: scroll;
 }
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
+}

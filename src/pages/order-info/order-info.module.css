@@ -1,0 +1,53 @@
+.heading {
+  text-align: center;
+}
+
+.order {
+  max-width: 640px;
+  padding: 62px;
+}
+
+.name {
+  text-align: left;
+  max-height: 30px;
+  overflow-y: scroll;
+}
+
+.status {
+  color: #0CC;
+  text-align: left;
+}
+
+.created {
+  color: #801AB2;
+}
+
+.consist {
+  text-align: left;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 200px;
+}
+
+.scroll {
+  composes: ingredients;
+  overflow-y: scroll;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.price {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}

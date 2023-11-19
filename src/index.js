@@ -7,13 +7,24 @@ import rootReducer from "./services/reducers/root-reducer";
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
 import { Provider } from "react-redux";
+import { socketMiddleware } from "./services/socketMiddleware";
+import { FEED_PAGE_CONNECT, FEED_PAGE_DISCONNECT, FEED_PAGE_WS_CLOSE, FEED_PAGE_WS_ERROR, FEED_PAGE_WS_MESSAGE, FEED_PAGE_WS_OPEN } from "./services/actions/feed";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const listActionsSocketFeed = socketMiddleware({
+  wsConnect: FEED_PAGE_CONNECT,
+  wsDisconnect: FEED_PAGE_DISCONNECT,
+  onOpen: FEED_PAGE_WS_OPEN,
+  onClose: FEED_PAGE_WS_CLOSE,
+  onError: FEED_PAGE_WS_ERROR,
+  onMessage: FEED_PAGE_WS_MESSAGE
+})
+
+const enhancer = composeEnhancers(applyMiddleware(thunk, listActionsSocketFeed));
 
 const store = createStore(rootReducer, enhancer);
 

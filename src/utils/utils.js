@@ -1,3 +1,9 @@
+const WebsocketStatus = {
+  CONNECTING: 'CONNECTING...',
+  ONLINE: 'ONLINE',
+  OFFLINE: 'OFFLINE'
+}
+
 function navigate(address) {
   window.history.replaceState(null, "", `${window.location.origin}${address}`);
   window.history.go();
@@ -9,4 +15,4 @@ function saveTokens(accessToken, refreshToken) {
   localStorage.setItem('refreshToken', refreshToken);
 }
 
-export {navigate, saveTokens}
+export {navigate, saveTokens, WebsocketStatus}

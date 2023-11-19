@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/actions/user-data';
 import getData from '../../services/actions/ingredient-list';
 import PersonalOrders from '../../pages/order-history/order-history';
+import OrderInfo from '../../pages/order-info/order-info';
 
 
 
@@ -64,6 +65,10 @@ function Switcher() {
           <PersonalOrders />
         </ProtectedElementPage>
         <Route path="/feed" exact children={<FeedPage />}/>
+        <Route path="/feed/:orderId" exact children={
+          <Modal onClose={closeModal}>
+            <OrderInfo />
+          </Modal>} />
         <Route path="/ingredients/:ingredientId" exact children={
           <Modal onClose={closeModal}>
             <IngredientDetails />

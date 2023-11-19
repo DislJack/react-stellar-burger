@@ -5,6 +5,7 @@ import modalIngredientReducer from "./modal-ingredient";
 import finalOrderReducer from "./final-order";
 import authReducer from "./auth";
 import getUserDataReducer from "./user-data";
+import feedPageReducer from "./feed";
 
 const rootReducer = combineReducers({
   burger: burgerReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   modal: modalIngredientReducer,
   order: finalOrderReducer,
   auth: authReducer,
-  user: getUserDataReducer
+  user: getUserDataReducer,
+  socket: feedPageReducer
 });
 
 export default rootReducer;
