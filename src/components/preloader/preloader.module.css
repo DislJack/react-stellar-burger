@@ -1,0 +1,30 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #131316;
+  opacity: 0.6;
+}
+
+.container {
+  position: absolute;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.loading {
+  background-color: #1C1C21;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid #801AB2;
+}

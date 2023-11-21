@@ -8,9 +8,10 @@ import { requestOrder } from '../../utils/burger-api';
 import CardHorizontal from '../../components/card-horizontal/card-horizontal';
 
 function OrderInfo() {
-  const {orderId} = useParams();
+  const {orderId, personalOrderId} = useParams();
   const ingredientsList = useSelector(selectIngredientList);
   const data = useSelector(store => store.socket.data);
+  const personalOrderData = useSelector(store => store.orderHistory.data);
   const location = useLocation();
   const history = useHistory();
   const [order, setOrder] = useState({});
@@ -18,7 +19,7 @@ function OrderInfo() {
 
   // Эта функция отправляет API запрос на сервер при необходимости.
   const findOrderWithApi = () => {
-    requestOrder(location.pathname === `/feed/${orderId}` ? orderId : '').then(data => {
+    requestOrder(location.pathname === `/feed/${orderId}` ? orderId : personalOrderId).then(data => {
       setOrder(data.orders[0]);
     }).catch(err => {
       history.push('/error', { errorNumber: err.split(' ')[1]})
@@ -27,10 +28,12 @@ function OrderInfo() {
 
   // Эта функция вернёт заказ, если обновить страницу с заказом или перейти на на заказ, которого нет в массиве.
   const findOrder = () => {
+    const order = data.orders.find(ord => ord.number.toString() === orderId);
+    const personalOrder = personalOrderData.orders.find(ord => ord.number.toString() === personalOrderId)
     if (location.pathname === `/feed/${orderId}`) {
-      data.orders !== undefined || data.orders.find(ord => ord.number.toString() === orderId) ? setOrder(data.orders.find(ord => ord.number.toString() === orderId)) : findOrderWithApi();
+      data.orders !== undefined || order ? setOrder(order) : findOrderWithApi();
     } else {
-
+      personalOrderData.orders !== undefined || personalOrder ? setOrder(personalOrder) : findOrderWithApi();
     };
   }
 

@@ -6,6 +6,7 @@ import finalOrderReducer from "./final-order";
 import authReducer from "./auth";
 import getUserDataReducer from "./user-data";
 import feedPageReducer from "./feed";
+import orderHistoryPageReducer from "./order-history";
 
 const rootReducer = combineReducers({
   burger: burgerReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   order: finalOrderReducer,
   auth: authReducer,
   user: getUserDataReducer,
-  socket: feedPageReducer
+  socket: feedPageReducer,
+  orderHistory: orderHistoryPageReducer
 });
 
 export default rootReducer;

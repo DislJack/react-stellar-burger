@@ -69,6 +69,11 @@ function Switcher() {
           <Modal onClose={closeModal}>
             <OrderInfo />
           </Modal>} />
+        <ProtectedElementPage path="/profile/orders/:personalOrderId" exact>
+          <Modal onClose={closeModal}>
+            <OrderInfo />
+          </Modal>
+        </ProtectedElementPage>
         <Route path="/ingredients/:ingredientId" exact children={
           <Modal onClose={closeModal}>
             <IngredientDetails />
@@ -82,6 +87,15 @@ function Switcher() {
               <IngredientDetails />
             </Modal>
           } />
+          <Route path="/feed/:orderId" exact children={
+            <Modal onClose={closeModal}>
+              <OrderInfo />
+            </Modal>} />
+          <ProtectedElementPage path="/profile/orders/:personalOrderId" exact>
+            <Modal onClose={closeModal}>
+              <OrderInfo />
+            </Modal>
+          </ProtectedElementPage>
         </Switch>
       )}
     </>

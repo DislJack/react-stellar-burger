@@ -22,7 +22,8 @@ function createOrderRequest(ingredients) {
   return request(`${address}/orders`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       "ingredients": ingredients
