@@ -1,8 +1,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(min-content, max-content));
-  margin: 32px 0 60px;
-  padding: 0 100px;
+  padding: 0 60px;
+  margin: 32px 0 0;
   justify-content: center;
   box-sizing: border-box;
   list-style-type: none;

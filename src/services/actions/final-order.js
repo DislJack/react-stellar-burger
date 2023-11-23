@@ -1,4 +1,5 @@
 import { createOrderRequest } from "../../utils/burger-api";
+import { CLEAR_INGREDIENTS } from "./burger-constructor";
 import { OPEN_MODAL } from "./modal-ingredient";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
@@ -16,6 +17,7 @@ const createOrder = (burger) => (dispatch) => {
   createOrderRequest(arr).then(data => {
     dispatch({type: CREATE_ORDER_SUCCESS, ingredients: arr, number: data.order.number});
     dispatch({type: OPEN_MODAL, ingredient: 'submit'});
+    dispatch({type: CLEAR_INGREDIENTS})
   })
   .catch(err => {
     dispatch({type: CREATE_ORDER_FAILURE});

@@ -3,8 +3,6 @@ import {Link, Redirect} from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Container from "../../components/container/container";
-import AppHeader from "../../components/app-header/app-header";
 import FormContainer from "../../components/form-container/form-container";
 import Form from "../../components/form/form";
 
@@ -38,15 +36,12 @@ function ForgotPasswordPage() {
   return (
     <>
       {redirect === true && <Redirect to="/reset-password" />}
-      <Container >
-        <AppHeader />
-        <FormContainer >
-          <Form headingText={'Восстановление пароля'} buttonText={'Восстановить'} onSubmitForm={onSubmitForgot} >
-            <EmailInput value={email} onChange={onChangeEmail} placeholder="Укажите E-mail" isIcon={false} />
-          </Form>
-          <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
-        </FormContainer>
-      </Container>
+      <FormContainer >
+        <Form headingText={'Восстановление пароля'} buttonText={'Восстановить'} onSubmitForm={onSubmitForgot} >
+          <EmailInput value={email} onChange={onChangeEmail} placeholder="Укажите E-mail" isIcon={false} />
+        </Form>
+        <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
+      </FormContainer>
     </>
   )
 }

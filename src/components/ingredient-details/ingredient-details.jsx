@@ -13,8 +13,8 @@ function IngredientDetails() {
     <>
       {ingredient === undefined? <div></div> : 
       <>
-        <h2 className='text text_type_main-large ml-10 mr-10' style={{marginTop: 52, alignSelf: 'flex-start'}}>Детали ингредиента</h2>
-        <img className='ml-25 mr-25' src={ingredient.image_large} alt={ingredient.name} />
+        <h2 className='text text_type_main-large'>Детали ингредиента</h2>
+        <img src={ingredient.image_large} alt={ingredient.name} />
         <p className='text text_type_main-medium mt-4'>{ingredient.name}</p>
         <ul className={styles.grid}>
           <li className={styles.numbers}>

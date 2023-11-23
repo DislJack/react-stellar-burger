@@ -16,6 +16,9 @@ import { checkUserAuth } from '../../services/actions/user-data';
 import getData from '../../services/actions/ingredient-list';
 import PersonalOrders from '../../pages/order-history/order-history';
 import OrderInfo from '../../pages/order-info/order-info';
+import Container from '../container/container';
+import AppHeader from '../app-header/app-header';
+import DirectLinkSection from '../direct-link-section/direct-link-section';
 
 
 
@@ -29,7 +32,10 @@ function App() {
 
   return (
     <Router>
-      <Switcher />
+      <Container >
+        <AppHeader />
+        <Switcher />
+      </Container>
     </Router>
   );
 }
@@ -66,18 +72,19 @@ function Switcher() {
         </ProtectedElementPage>
         <Route path="/feed" exact children={<FeedPage />}/>
         <Route path="/feed/:orderId" exact children={
-          <Modal onClose={closeModal}>
+          <DirectLinkSection>
             <OrderInfo />
-          </Modal>} />
+          </DirectLinkSection>} />
         <ProtectedElementPage path="/profile/orders/:personalOrderId" exact>
-          <Modal onClose={closeModal}>
+          <DirectLinkSection>
             <OrderInfo />
-          </Modal>
+          </DirectLinkSection>
         </ProtectedElementPage>
         <Route path="/ingredients/:ingredientId" exact children={
-          <Modal onClose={closeModal}>
+          <DirectLinkSection >
             <IngredientDetails />
-          </Modal>} />
+          </DirectLinkSection>
+        } />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
       {background && (

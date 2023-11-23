@@ -1,4 +1,4 @@
-import { ADD_BUN, REMOVE_BUN, ADD_INGREDIENT, REMOVE_INGREDIENT, UPDATE_INDREDIENT_LIST } from "../actions/burger-constructor";
+import { ADD_BUN, REMOVE_BUN, ADD_INGREDIENT, REMOVE_INGREDIENT, UPDATE_INDREDIENT_LIST, CLEAR_INGREDIENTS } from "../actions/burger-constructor";
 
 const initialBurger = {
   bun: {},
@@ -36,6 +36,12 @@ const burgerReducer = (burger = initialBurger, action) => {
       return {
         ...burger,
         ingredients: burger.ingredients
+      }
+    }
+    case CLEAR_INGREDIENTS: {
+      return {
+        bun: {},
+        ingredients: []
       }
     }
     default: return burger;

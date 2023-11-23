@@ -1,4 +1,6 @@
-import { ORDER_HISTORY_WS_OPEN, ORDER_HISTORY_WS_MESSAGE, ORDER_HISTORY_WS_CLOSE, ORDER_HISTORY_WS_ERROR } from "../actions/order-history"
+import { ORDER_HISTORY_WS_MESSAGE} from "../actions/order-history"
+import { FEED_PAGE_WS_OPEN, FEED_PAGE_WS_CLOSE, FEED_PAGE_WS_ERROR } from "../actions/feed";
+
 
 const initialState = {
   wsConnected: false,
@@ -8,20 +10,20 @@ const initialState = {
 
 const orderHistoryPageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ORDER_HISTORY_WS_OPEN: {
+    case FEED_PAGE_WS_OPEN: {
       return {
         ...state,
         wsConnected: true,
         error: ''
       }
     }
-    case ORDER_HISTORY_WS_CLOSE: {
+    case FEED_PAGE_WS_CLOSE: {
       return {
         ...state,
         wsConnected: false
       }
     }
-    case ORDER_HISTORY_WS_ERROR: {
+    case FEED_PAGE_WS_ERROR: {
       return {
         ...state,
         error: action.payload,

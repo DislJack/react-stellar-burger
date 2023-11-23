@@ -28,12 +28,12 @@ function OrderInfo() {
 
   // Эта функция вернёт заказ, если обновить страницу с заказом или перейти на на заказ, которого нет в массиве.
   const findOrder = () => {
-    const order = data.orders.find(ord => ord.number.toString() === orderId);
-    const personalOrder = personalOrderData.orders.find(ord => ord.number.toString() === personalOrderId)
+    const order = data.orders !== undefined ? data.orders.find(ord => ord.number.toString() === orderId) : undefined;
+    const personalOrder = personalOrderData.orders !== undefined ? personalOrderData.orders.find(ord => ord.number.toString() === personalOrderId) : undefined;
     if (location.pathname === `/feed/${orderId}`) {
-      data.orders !== undefined || order ? setOrder(order) : findOrderWithApi();
+      order !== undefined ? setOrder(order) : findOrderWithApi();
     } else {
-      personalOrderData.orders !== undefined || personalOrder ? setOrder(personalOrder) : findOrderWithApi();
+      personalOrder !== undefined ? setOrder(personalOrder) : findOrderWithApi();
     };
   }
 

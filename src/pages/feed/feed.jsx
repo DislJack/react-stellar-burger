@@ -1,6 +1,4 @@
 import styles from "./feed.module.css";
-import Container from "../../components/container/container";
-import AppHeader from "../../components/app-header/app-header";
 import OrdersFeed from "../../components/orders-feed/orders-feed";
 import { useEffect } from "react";
 import { connect, disconnect } from "../../services/actions/feed";
@@ -19,46 +17,43 @@ function FeedPage() {
     return () => {
       dispatch(disconnect());
     }
-  })
+  }, [])
 
   return (
-    <Container >
-      <AppHeader />
-      <section className={styles.section}>
-        <h2 className="text text_type_main-large mt-10 mb-5">Лента Заказов</h2>
-        <div className={styles.container}>
-          <OrdersFeed orders={data.orders} path={location.pathname} />
-          <div className={styles.boards}>
-            <div className={styles.orders}>
-              <div>
-                <p className='text text_type_main-medium pb-6'>Готовы:</p>
-                <div className={styles.board}>
-                  {data.orders && data.orders.filter(order => order.status === 'done').map(order => {
-                      return <p className={"text text_type_digits-default " + styles.finished} key={order.number}>{order.number}</p>
-                    })}
-                </div>
-              </div>
-              <div>
-                <p className='text text_type_main-medium pb-6'>В работе:</p>
-                <div className={styles.board}>
-                  {data.orders && data.orders.filter(order => order.status !== 'done').map(order => {
-                    return <p className={"text text_type_digits-default"} key={order.number}>{order.number}</p>
+    <section className={styles.section}>
+      <h2 className="text text_type_main-large mt-10 mb-5">Лента Заказов</h2>
+      <div className={styles.container}>
+        <OrdersFeed orders={data.orders} path={location.pathname} />
+        <div className={styles.boards}>
+          <div className={styles.orders}>
+            <div>
+              <p className='text text_type_main-medium pb-6'>Готовы:</p>
+              <div className={styles.board}>
+                {data.orders && data.orders.filter(order => order.status === 'done').map(order => {
+                    return <p className={"text text_type_digits-default " + styles.finished} key={order.number}>{order.number}</p>
                   })}
-                </div>
               </div>
             </div>
             <div>
-              <p className="text text_type_main-medium">Выполнено за всё время:</p>
-              <p className={"text text_type_digits-large " + styles.shadow}>{data.total}</p>
-            </div>
-            <div>
-              <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-              <p className={"text text_type_digits-large " + styles.shadow}>{data.totalToday}</p>
+              <p className='text text_type_main-medium pb-6'>В работе:</p>
+              <div className={styles.board}>
+                {data.orders && data.orders.filter(order => order.status !== 'done').map(order => {
+                  return <p className={"text text_type_digits-default"} key={order.number}>{order.number}</p>
+                })}
+              </div>
             </div>
           </div>
+          <div>
+            <p className="text text_type_main-medium">Выполнено за всё время:</p>
+            <p className={"text text_type_digits-large " + styles.shadow}>{data.total}</p>
+          </div>
+          <div>
+            <p className="text text_type_main-medium">Выполнено за сегодня:</p>
+            <p className={"text text_type_digits-large " + styles.shadow}>{data.totalToday}</p>
+          </div>
         </div>
-      </section>
-    </Container>
+      </div>
+    </section>
   )
 }
 
