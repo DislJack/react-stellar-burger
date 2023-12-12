@@ -10,12 +10,16 @@ import {addIngredient, updateIngredientsList} from '../../services/actions/burge
 import { useDrop } from 'react-dnd';
 import { closeAndCLearModal } from '../../services/actions/modal-ingredient';
 import { selectBurger, selectModal, selectOrderNumber } from '../../services/selectors';
+import {useHistory} from 'react-router-dom';
+import Preloader from '../preloader/preloader';
 
 function BurgerConstructor() {
   const burger = useSelector(selectBurger);
   const {open, ingredient} = useSelector(selectModal);
   const number = useSelector(selectOrderNumber);
+  const isLoading = useSelector(store => store.order.isLoading);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(ingredient) {
@@ -29,7 +33,12 @@ function BurgerConstructor() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(createOrder(burger));
+    if (localStorage.getItem('accessToken')) {
+      dispatch(createOrder(burger));
+    } else {
+      history.push('/login')
+    }
+    
   }
 
   const closeModal = () => {
@@ -56,6 +65,7 @@ function BurgerConstructor() {
 
   return (
     <>
+      {isLoading === true && <Preloader />}
       {open && ingredient === 'submit' && modal}
       <form className={styles.grid} ref={dropTarget} onSubmit={handleSubmit}>
         <div className={styles.ingredients}>

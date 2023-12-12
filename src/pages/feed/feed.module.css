@@ -1,0 +1,50 @@
+.section {
+  max-width: 1280px;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  width: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow-y: hidden;
+  gap: 60px;
+  width: 100%;
+}
+
+.boards {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.orders {
+  display: grid;
+  gap: 36px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.board {
+  max-width: 272px;
+  max-height: 154px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 8px;
+}
+
+.finished {
+  color: #0CC;
+}
+
+.shadow {
+  text-shadow: 
+  0px 4px 32px rgba(51, 51, 255, 0.50), 
+  0px 0px 8px rgba(51, 51, 255, 0.25), 
+  0px 0px 16px rgba(51, 51, 255, 0.25);
+}

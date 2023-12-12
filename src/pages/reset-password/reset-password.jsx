@@ -3,8 +3,6 @@ import {Link, Redirect} from 'react-router-dom';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Container from "../../components/container/container";
-import AppHeader from "../../components/app-header/app-header";
 import FormContainer from "../../components/form-container/form-container";
 import Form from "../../components/form/form";
 
@@ -45,16 +43,13 @@ function ResetPasswordPage() {
   return (
     <>
       {redirect === true && <Redirect to='/login' />}
-      <Container>
-        <AppHeader />
-        <FormContainer>
-          <Form headingText={'Восстановление пароля'} buttonText={'Сохранить'} onSubmitForm={onSubmitReset}>
-            <Input type={iconShow === true ? "text" : "password"} icon={iconShow === true ? "HideIcon" : "ShowIcon"} errorText="Введите пароль, используя латинский алфавит, заглавные и строчные буквы, а так же цифры." placeholder="Введите новый пароль" value={password} onChange={onChangePassword} onIconClick={onIconClick}/>
-            <Input type="text" placeholder="Введите код из письма" errorText="Ваш код введён неверно. Введите код снова из нового письма." value={code} onChange={onChangeCode}/>
-          </Form>
-          <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
-        </FormContainer>
-      </Container>
+      <FormContainer>
+        <Form headingText={'Восстановление пароля'} buttonText={'Сохранить'} onSubmitForm={onSubmitReset}>
+          <Input type={iconShow === true ? "text" : "password"} icon={iconShow === true ? "HideIcon" : "ShowIcon"} errorText="Введите пароль, используя латинский алфавит, заглавные и строчные буквы, а так же цифры." placeholder="Введите новый пароль" value={password} onChange={onChangePassword} onIconClick={onIconClick}/>
+          <Input type="text" placeholder="Введите код из письма" errorText="Ваш код введён неверно. Введите код снова из нового письма." value={code} onChange={onChangeCode}/>
+        </Form>
+        <p className="text text_type_main-small text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
+      </FormContainer>
     </>
   )
 }

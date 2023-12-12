@@ -22,7 +22,8 @@ function createOrderRequest(ingredients) {
   return request(`${address}/orders`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       "ingredients": ingredients
@@ -140,4 +141,13 @@ function logoutUserRequest() {
   })
 }
 
-export {getDataRequest, createOrderRequest, registerUserRequest, forgotPasswordRequest, resetPasswordRequest, authUser, refreshTokenUser, updateUserDataRequest, loginUserRequest, logoutUserRequest}
+function requestOrder(orderNumber) {
+  return request(`${address}/orders/${orderNumber}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export {getDataRequest, createOrderRequest, registerUserRequest, forgotPasswordRequest, resetPasswordRequest, authUser, refreshTokenUser, updateUserDataRequest, loginUserRequest, logoutUserRequest, requestOrder}

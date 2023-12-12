@@ -2,9 +2,7 @@ import { EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-compo
 import { useState, useRef, useEffect } from "react";
 import {Link, useHistory} from 'react-router-dom';
 
-import Container from "../../components/container/container";
 import FormContainer from "../../components/form-container/form-container";
-import AppHeader from "../../components/app-header/app-header";
 import Form from "../../components/form/form";
 import { loginUser } from "../../services/actions/user-data";
 import { useDispatch } from "react-redux";
@@ -38,17 +36,14 @@ function LoginPage() {
 
   return (
     <>
-      <Container>
-        <AppHeader />
-        <FormContainer>
-          <Form headingText={'Вход'} buttonText={'Войти'} onSubmitForm={onSubmitLogin} >
-            <EmailInput value={emailValue} placeholder="E-mail" isIcon={false} onChange={onChange} />
-            <Input value={passwordValue} placeholder="Пароль" type={iconShow === true ? "text" : "password"} size="default" icon={iconShow === true ? 'HideIcon' : 'ShowIcon'} ref={password} onIconClick={onIconClick} onChange={onChangePassword} />
-          </Form>
-          <p className="text text_type_main-small text_color_inactive">Вы - новый пользователь? <Link to="/registration" >Зарегистрироваться</Link></p>
-          <p className="text text_type_main-small text_color_inactive">Забыли пароль? <Link to="/forgot-password" >Восстановить пароль</Link></p>
-        </FormContainer>
-      </Container>
+      <FormContainer>
+        <Form headingText={'Вход'} buttonText={'Войти'} onSubmitForm={onSubmitLogin} >
+          <EmailInput value={emailValue} placeholder="E-mail" isIcon={false} onChange={onChange} />
+          <Input value={passwordValue} placeholder="Пароль" type={iconShow === true ? "text" : "password"} size="default" icon={iconShow === true ? 'HideIcon' : 'ShowIcon'} ref={password} onIconClick={onIconClick} onChange={onChangePassword} />
+        </Form>
+        <p className="text text_type_main-small text_color_inactive">Вы - новый пользователь? <Link to="/registration" >Зарегистрироваться</Link></p>
+        <p className="text text_type_main-small text_color_inactive">Забыли пароль? <Link to="/forgot-password" >Восстановить пароль</Link></p>
+      </FormContainer>
     </>
   )
 }
