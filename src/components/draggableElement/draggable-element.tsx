@@ -2,7 +2,7 @@ import styles from './draggable-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { removeIngredient } from '../../services/actions/burger-constructor';
 import { useRef, FunctionComponent } from 'react';
-import {useDrag, useDrop, XYCoord} from 'react-dnd';
+import {useDrag, useDrop} from 'react-dnd';
 import { TIngredientPropType } from '../../utils/prop-types';
 import { useDispatch } from '../../services/hooks';
 

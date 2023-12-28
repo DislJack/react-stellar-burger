@@ -1,5 +1,4 @@
 import styles from './ingredient-section.module.css';
-import PropTypes from 'prop-types';
 import { TIngredientPropType } from '../../utils/prop-types';
 import Ingredient from '../ingredient/ingredient';
 import { forwardRef, Ref } from 'react';

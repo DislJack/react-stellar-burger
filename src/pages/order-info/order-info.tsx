@@ -11,8 +11,6 @@ import { useSelector } from '../../services/hooks';
 function OrderInfo() {
   const {orderId, personalOrderId} = useParams<{orderId: string; personalOrderId: string}>();
   const ingredientsList = useSelector(selectIngredientList);
-  const data = useSelector(store => store.socket.data);
-  const personalOrderData = useSelector(store => store.orderHistory.data);
   const location = useLocation();
   const history = useHistory();
   const [order, setOrder] = useState<TOrder>({
