@@ -25,10 +25,15 @@ export type TWSErrorFeedAction = {
 
 export type TWSMessageFeedAction = {
   readonly type: typeof FEED_PAGE_WS_MESSAGE;
-  readonly payload: Array<TOrder>;
+  readonly payload: {
+    success: boolean;
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number
+  };
 }
 
-export type TWSFeedAction = TWSOpenFeedAction | TWSCloseFeedAction | TWSErrorFeedAction | TWSMessageFeedAction;
+export type TWSFeedAction = TWSOpenFeedAction | TWSCloseFeedAction | TWSErrorFeedAction;
 
 export type TConnectionAction = TConnectAction | TDisconnectAction;
 

@@ -2,7 +2,7 @@ import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILU
 import { TGetIngredientsAction } from "../actions/ingredient-list";
 import { TIngredientPropType } from "../../utils/prop-types";
 
-type TInitialState = {
+export type TInitialState = {
   data: {
     buns: Array<TIngredientPropType>;
     sauces: Array<TIngredientPropType>;

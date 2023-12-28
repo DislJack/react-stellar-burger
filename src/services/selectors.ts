@@ -9,4 +9,4 @@ export const selectModal = (store: {modal: {open: boolean; ingredient?: TIngredi
   ingredient: store.modal.ingredient
 });
 
-export const selectOrderNumber = (store: {order: {number: string}}) => store.order.number;
+export const selectOrderNumber = (store: {order: {number: number}}) => store.order.number;

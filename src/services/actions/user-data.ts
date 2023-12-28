@@ -5,7 +5,7 @@ import { AppDispatch } from "../types";
 
 export type TSetUserAction = {
   readonly type: typeof SET_USER;
-  readonly user: {
+  readonly user?: {
     email?: string;
     name?: string;
   }
@@ -24,14 +24,14 @@ function throwError(err: string, history: any) {
 }
 
 const updateUserData = (username: string, email: string, password: string, history: any) => (dispatch: AppDispatch) => {
-  updateUserDataRequest({username, email, password}).then(data => {
+  updateUserDataRequest(username, email, password).then(data => {
     dispatch({type: SET_USER, user: data.user});
   }).catch((err) => {
     console.log(err);
     if (err.message === 'jwt expired') {
       refreshTokenUser().then(data => {
         saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
-        updateUserDataRequest({username, email, password}).then(data => {
+        updateUserDataRequest(username, email, password).then(data => {
           dispatch({type: SET_USER, user: data.user});
         });
       }).catch(() => {
@@ -77,7 +77,7 @@ const checkUserAuth = (history: any) => (dispatch: AppDispatch) => {
 
 
 const registerUser = (username: string, email: string, password: string, history: any) => (dispatch: AppDispatch) => {
-  registerUserRequest({username, email, password}).then(data => {
+  registerUserRequest(username, email, password).then(data => {
     dispatch({type: SET_USER, user: data.user})
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
     history.replace('/');
@@ -88,7 +88,7 @@ const registerUser = (username: string, email: string, password: string, history
 }
 
 const loginUser = (email: string, password: string, history: any) => (dispatch: AppDispatch) => {
-  loginUserRequest({email, password}).then(data => {
+  loginUserRequest(email, password).then(data => {
     dispatch({type: SET_USER, user: data.user});
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
     history.replace('/');
@@ -106,7 +106,7 @@ const logoutUser = (history: any) => (dispatch: AppDispatch) => {
     // Переадресация на страницу ошибки
     throwError(err, history);
   }).finally(() => {
-    dispatch({type: SET_USER, user: {}})
+    dispatch({type: SET_USER, user: undefined})
     localStorage.clear();
   })
 }

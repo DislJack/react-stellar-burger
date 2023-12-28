@@ -25,7 +25,7 @@ function PersonalOrders() {
     <div className={styles.section}>
       <div className={styles.container}>
         <ProfileNavigation />
-        <OrdersFeed orders={data.orders} path={location.pathname} />
+        <OrdersFeed orders={data === undefined ? undefined : data.orders} path={location.pathname} />
       </div>
     </div>
   )

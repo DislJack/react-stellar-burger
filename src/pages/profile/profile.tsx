@@ -24,8 +24,8 @@ type TInput = {
 function ProfilePage() {
   const history = useHistory();
   const user = useSelector(store => store.user.user);
-  const userName = useInput(user.name);
-  const login = useInput(user.email);
+  const userName = useInput(user !== undefined ? user.name : '');
+  const login = useInput(user !== undefined ? user.email : '');
   const password = useInput('');
   const dispatch = useDispatch();
 

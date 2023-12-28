@@ -37,12 +37,10 @@ function OrderInfo() {
 
   // Эта функция вернёт заказ, если обновить страницу с заказом или перейти на на заказ, которого нет в массиве.
   const findOrder = () => {
-    const order = data.orders !== undefined ? data.orders.find(ord => ord.number.toString() === orderId) : undefined;
-    const personalOrder = personalOrderData.orders !== undefined ? personalOrderData.orders.find(ord => ord.number.toString() === personalOrderId) : undefined;
     if (location.pathname === `/feed/${orderId}`) {
-      order !== undefined ? setOrder(order) : findOrderWithApi();
+      findOrderWithApi();
     } else {
-      personalOrder !== undefined ? setOrder(personalOrder) : findOrderWithApi();
+      findOrderWithApi();
     };
   }
 
@@ -98,11 +96,13 @@ function OrderInfo() {
 
   // Эта функция считает полную стоимость заказа
   const totalPrice = () => {
-    const array = filteredOrder().map(ingredient => {
-      return ingredientsList.buns.concat(ingredientsList.sauces, ingredientsList.main).find(ing => ing._id === ingredient._id).price*ingredient.count;
-    });
-    const price = array[0]*2;
-    return array.slice(1, array.length).reduce((accum, current) => {return accum + current}, price);
+    if (ingredientsList.buns.length !== 0) {
+      const array = filteredOrder().map(ingredient => {
+        return ingredientsList.buns.concat(ingredientsList.sauces, ingredientsList.main).filter(ing => ing._id === ingredient._id)[0].price*ingredient.count;
+      });
+      const price = array[0]*2;
+      return array.slice(1, array.length).reduce((accum, current) => {return accum + current}, price);
+    }
   }
 
 

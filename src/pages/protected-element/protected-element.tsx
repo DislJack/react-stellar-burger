@@ -1,14 +1,15 @@
 import {Redirect, useLocation, Route} from 'react-router-dom';
-import {FunctionComponent} from 'react';
 import { useSelector } from "../../services/hooks";
+import React from 'react';
 
 type TProtectedElementPage = {
   path: string;
   onlyUnAuth?: boolean;
   exact?: boolean;
+  children: React.ReactNode;
 }
 
-const ProtectedElementPage: FunctionComponent<TProtectedElementPage> = ({onlyUnAuth = false, children, ...rest}) => {
+function ProtectedElementPage({onlyUnAuth = false, children, ...rest}: TProtectedElementPage) {
   const isUserLoaded = useSelector(store => store.user.isUserLoaded);
   const location = useLocation();
   const user = useSelector(store => store.user.user);
@@ -17,12 +18,12 @@ const ProtectedElementPage: FunctionComponent<TProtectedElementPage> = ({onlyUnA
     return null;
   }
 
-  if (onlyUnAuth && user.name) {
+  if (onlyUnAuth && user !== undefined) {
     const from = location.state || {from: {pathname: '/'}};
     return <Redirect to={from} />
   }
 
-  if (!onlyUnAuth && user.name === undefined) {
+  if (!onlyUnAuth && user === undefined) {
     return <Redirect to={{
       pathname: "/login",
       state: {from: location}

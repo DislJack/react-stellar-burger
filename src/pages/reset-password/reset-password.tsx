@@ -36,7 +36,7 @@ function ResetPasswordPage() {
   }
 
 
-  if (user.name || !localStorage.getItem('acceptAccess')) {
+  if (user !== undefined || !localStorage.getItem('acceptAccess')) {
     return (
       <Redirect to="/" />
     )

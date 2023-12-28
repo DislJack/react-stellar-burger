@@ -11,13 +11,13 @@ export type TCreateOrderRequestAction = {
 
 export type TCreateOrderSuccessAction = {
   readonly type: typeof CREATE_ORDER_SUCCESS;
-  readonly ingredients: [];
-  readonly number: string;
+  ingredients: Array<string | undefined>;
+  readonly number: number;
 }
 
 export type TOpenModalAction = {
   readonly type: typeof OPEN_MODAL;
-  ingredient: string;
+  readonly ingredient: 'submit' | TIngredientPropType;
 }
 
 export type TClearIngredients = {

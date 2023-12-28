@@ -3,7 +3,7 @@ import { TIngredientAction } from "../actions/burger-constructor";
 import { TClearIngredients } from "../actions/final-order";
 import { TIngredientPropType } from "../../utils/prop-types";
 
-type TInitialBurger = {
+export type TInitialBurger = {
   bun: TIngredientPropType;
   ingredients: Array<TIngredientPropType>;
 }

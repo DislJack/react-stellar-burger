@@ -9,7 +9,7 @@ export const FEED_PAGE_WS = 'wss://norma.nomoreparties.space/orders/all';
 
 function FeedPage() {
   const dispatch = useDispatch();
-  const data = useSelector(store => store.socket.data);
+  const data = useSelector(store => store.orderHistory.data);
   const location = useLocation();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function FeedPage() {
     <section className={styles.section}>
       <h2 className="text text_type_main-large mt-10 mb-5">Лента Заказов</h2>
       <div className={styles.container}>
-        <OrdersFeed orders={data.orders} path={location.pathname} />
+        <OrdersFeed orders={data === undefined ? undefined : data.orders} path={location.pathname} />
         <div className={styles.boards}>
           <div className={styles.orders}>
             <div>

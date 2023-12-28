@@ -38,7 +38,7 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuth(history));
     dispatch(getData());
-  }, [dispatch])
+  }, [dispatch, history])
 
   return (
     <Router>

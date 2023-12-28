@@ -2,7 +2,7 @@ import styles from './order-details.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 type TOrderDetails = {
-  number?: string;
+  number?: number;
 }
 
 function OrderDetails(props: TOrderDetails) {

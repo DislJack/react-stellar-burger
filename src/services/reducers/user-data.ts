@@ -1,8 +1,8 @@
 import { SET_USER, SET_AUTH_CHECKED } from "../constants/user-data";
 import { TUserAction } from "../actions/user-data";
 
-type TInitialUserData = {
-  user: {
+export type TInitialUserData = {
+  user?: {
     email: string;
     name: string;
   };
@@ -10,10 +10,7 @@ type TInitialUserData = {
 }
 
 const initialUserData: TInitialUserData = {
-  user: {
-    email: '',
-    name: ''
-  },
+  user: undefined,
   isUserLoaded: false
 }
 

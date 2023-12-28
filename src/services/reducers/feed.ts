@@ -1,21 +1,31 @@
 import { FEED_PAGE_WS_OPEN, FEED_PAGE_WS_MESSAGE, FEED_PAGE_WS_CLOSE, FEED_PAGE_WS_ERROR } from "../constants/feed";
 import { TOrder } from "../../utils/prop-types";
-import { TWSFeedAction } from "../actions/feed";
+import { TWSFeedAction, TWSMessageFeedAction } from "../actions/feed";
 
-type TInitialOrder = {
+export type TInitialSocket = {
   wsConnected: boolean;
-  data: ReadonlyArray<TOrder>;
+  data: {
+    success?: boolean;
+    orders: TOrder[];
+    total?: number;
+    totalToday?: number;
+  };
   error: string
 }
 
-const initialState: TInitialOrder = {
+const initialState: TInitialSocket = {
   wsConnected: false,
-  data: [],
+  data: {
+    success: false,
+    orders: [],
+    total: 0,
+    totalToday: 0
+  },
   error: ''
 }
 
 // Прописать типы для Экшенов в мидлваре
-const feedPageReducer = (state = initialState, action: TWSFeedAction) => {
+const feedPageReducer = (state = initialState, action: TWSFeedAction | TWSMessageFeedAction) => {
   switch (action.type) {
     case FEED_PAGE_WS_OPEN: {
       return {

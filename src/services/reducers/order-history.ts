@@ -5,20 +5,30 @@ import { TWSFeedAction } from "../actions/feed";
 
 export type TWSOrderHistoryMessageAction = {
   readonly type: typeof ORDER_HISTORY_WS_MESSAGE;
-  readonly payload: Array<TOrder>;
+  readonly payload: {
+    success: boolean;
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number
+  };
 }
 
 
-type TInitialState = {
+export type TInitialOrderHistory = {
   wsConnected: boolean;
-  data: Array<TOrder>;
+  data: {
+    success?: boolean;
+    orders?: TOrder[];
+    total?: number;
+    totalToday?: number;
+  };
   error: string;
 }
 
 
-const initialState: TInitialState = {
+const initialState: TInitialOrderHistory = {
   wsConnected: false,
-  data: [],
+  data: {},
   error: ''
 }
 

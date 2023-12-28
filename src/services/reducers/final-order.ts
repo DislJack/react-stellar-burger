@@ -1,16 +1,16 @@
 import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAILURE } from "../constants/final-order";
 import { TCreateOrderAction } from "../actions/final-order";
 
-type TInitialOrder = {
-  ingredients: string[];
-  number: string;
+export type TInitialOrder = {
+  ingredients: Array<string | undefined>;
+  number: number;
   isLoading: boolean;
   hasError: boolean;
 }
 
 const initialOrder: TInitialOrder = {
   ingredients: [],
-  number: '',
+  number: 0,
   isLoading: false,
   hasError: false
 }

@@ -3,7 +3,7 @@ import { OPEN_MODAL, CLOSE_MODAL } from "../constants/modal-ingredient";
 
 export type TOpenModalAction = {
   readonly type: typeof OPEN_MODAL;
-  readonly ingredient: TIngredientPropType;
+  readonly ingredient: TIngredientPropType | 'submit';
 }
 
 export type TCloseModalAction = {

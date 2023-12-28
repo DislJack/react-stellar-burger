@@ -11,6 +11,12 @@ import { socketMiddleware } from "./services/socketMiddleware";
 import { FEED_PAGE_CONNECT, FEED_PAGE_DISCONNECT, FEED_PAGE_WS_CLOSE, FEED_PAGE_WS_ERROR, FEED_PAGE_WS_MESSAGE, FEED_PAGE_WS_OPEN } from "./services/constants/feed";
 import { ORDER_HISTORY_WS_MESSAGE } from "./services/constants/order-history";
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (arg: {}) => typeof compose;
+  }
+}
+
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})

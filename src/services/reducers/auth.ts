@@ -1,7 +1,7 @@
 import { SEND_CODE_TO_EMAIL_SUCCESS, RESET_PASSWORD_SUCCESS } from "../constants/auth";
 import { TResetPasswordSendCodeAction } from "../actions/auth";
 
-type TInitialAuth = {
+export type TInitialAuth = {
   emailSent: boolean;
   passwordReset: boolean;
 }

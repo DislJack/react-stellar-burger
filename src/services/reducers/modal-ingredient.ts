@@ -2,12 +2,12 @@ import { OPEN_MODAL, CLOSE_MODAL } from "../constants/modal-ingredient";
 import { TModalAction } from "../actions/modal-ingredient";
 import { TIngredientPropType } from "../../utils/prop-types";
 
-type TInitialState = {
+export type TInitialModal = {
   open: boolean;
-  ingredient?: TIngredientPropType | 'submit';
+  ingredient?: 'submit' | TIngredientPropType;
 }
 
-const initialState: TInitialState = {
+const initialState: TInitialModal = {
   open: false,
   ingredient: undefined
 }

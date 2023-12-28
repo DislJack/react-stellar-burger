@@ -16,7 +16,6 @@ type TOrderCard = {
 function OrderCard({order}: TOrderCard) {
   const data = useSelector(selectIngredientList);
   const indregientsData = data.buns.concat(data.sauces, data.main);
-  const currentIngredient = (ingredient: TListIngredeints) => indregientsData.find(ing => ing._id === ingredient._id);
 
 
   // Эта функция позволит оптимизировать список ингредиентов и убрать повторяющиеся элементы заказа,
@@ -61,7 +60,7 @@ function OrderCard({order}: TOrderCard) {
   // Функция подсчёта общей цены для всего заказа.
   const totalPrice = () => {
     const array = filteredOrder().map(ingredient => {
-      return indregientsData.find(ing => ing._id === ingredient._id).price*ingredient.count;
+      return indregientsData.filter(ing => ing._id === ingredient._id)[0].price*ingredient.count;
     });
     const price = array[0]*2;
     return array.slice(1, array.length).reduce((accum, current) => {return accum + current}, price);
@@ -78,7 +77,7 @@ function OrderCard({order}: TOrderCard) {
         <div className={filteredOrder().length >= 9 ? styles.scroll + ' custom-scroll' : styles.ingredients}>
           {filteredOrder().map((ingredient, index) => {
             return (<div className={styles.boximage} key={ingredient._id} style={{zIndex: filteredOrder().length - index}}>
-              <img className={styles.image} src={indregientsData.find(ing => ing._id === ingredient._id).image} alt={indregientsData.find(ing => ing._id === ingredient._id).name} />
+              <img className={styles.image} src={indregientsData.filter(ing => ing._id === ingredient._id)[0].image} alt={indregientsData.filter(ing => ing._id === ingredient._id)[0].name} />
               {ingredient.count > 1 && <div className={styles.counter}></div>}
               {ingredient.count > 1 && <p className={`${styles.text} text text_type_digits-default`}>{'+' + ingredient.count}</p>}
             </div>)

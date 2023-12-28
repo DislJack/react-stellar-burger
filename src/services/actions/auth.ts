@@ -16,7 +16,7 @@ export type TResetPasswordSendCodeAction = TSendCodeToEmailSuccessAction | TRese
 // Экшен креаторы для функций
 
 const forgotPassword = (email: string, history: any) => (dispatch: AppDispatch) => {
-  forgotPasswordRequest({email}).then(() => {
+  forgotPasswordRequest(email).then(() => {
     dispatch({type: SEND_CODE_TO_EMAIL_SUCCESS})
     // Экшен на успешное направление кода сброса пароля
   })
@@ -27,7 +27,7 @@ const forgotPassword = (email: string, history: any) => (dispatch: AppDispatch) 
 }
 
 const resetPassword = (password: string, token: string, history: any) => (dispatch: AppDispatch) => {
-  resetPasswordRequest({password, token}).then(() => {
+  resetPasswordRequest(password, token).then(() => {
     dispatch({type: RESET_PASSWORD_SUCCESS});
     // экшен на успешный сброс.
   })

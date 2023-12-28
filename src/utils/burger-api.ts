@@ -1,11 +1,6 @@
-const address: string = 'https://norma.nomoreparties.space/api';
+import { TIngredientPropType, TOrder } from "./prop-types";
 
-type TUserData = {
-  email?: string;
-  username?: string;
-  password?: string;
-  token?: string;
-}
+const address: string = 'https://norma.nomoreparties.space/api';
 
 function request(address: string, settings: RequestInit) {
   return fetch(address, settings).then(res => {
@@ -16,7 +11,7 @@ function request(address: string, settings: RequestInit) {
   })
 }
 
-function getDataRequest() {
+function getDataRequest(): Promise<{data: Array<TIngredientPropType>}> {
   return request(`${address}/ingredients`, {
     method: 'GET',
     headers: {
@@ -25,7 +20,7 @@ function getDataRequest() {
   })
 }
 
-function createOrderRequest(ingredients: Array<string | undefined>) {
+function createOrderRequest(ingredients: Array<string | undefined>): Promise<{order: {number: number}}> {
   return request(`${address}/orders`, {
     method: 'POST',
     headers: {
@@ -38,7 +33,7 @@ function createOrderRequest(ingredients: Array<string | undefined>) {
   })
 }
 
-function registerUserRequest({username, email, password}: TUserData) {
+function registerUserRequest(username: string, email: string, password: string): Promise<{user: {email: string; name: string}; accessToken: string; refreshToken: string}> {
   return request(`${address}/auth/register`, {
     method: 'POST',
     headers: {
@@ -52,7 +47,7 @@ function registerUserRequest({username, email, password}: TUserData) {
   })
 }
 
-function forgotPasswordRequest({email}: TUserData) {
+function forgotPasswordRequest(email: string) {
   return request(`${address}/password-reset`, {
     method: 'POST',
     headers: {
@@ -64,7 +59,7 @@ function forgotPasswordRequest({email}: TUserData) {
   })
 }
 
-function resetPasswordRequest({password, token}: TUserData) {
+function resetPasswordRequest(password: string, token: string) {
   return request(`${address}/password-reset/reset`, {
     method: 'POST',
     headers: {
@@ -77,7 +72,7 @@ function resetPasswordRequest({password, token}: TUserData) {
   })
 }
 
-function authUser() {
+function authUser(): Promise<{user: {name: string; email: string}}> {
   return request(`${address}/auth/user`, {
     method: 'GET',
     mode: 'cors',
@@ -90,7 +85,7 @@ function authUser() {
   })
 }
 
-function updateUserDataRequest({username, email, password}: TUserData) {
+function updateUserDataRequest(username: string, email: string, password: string): Promise<{user: {name: string; email: string}}> {
   return request(`${address}/auth/user`, {
     method: 'PATCH',
     mode: 'cors',
@@ -108,7 +103,7 @@ function updateUserDataRequest({username, email, password}: TUserData) {
   })
 }
 
-function refreshTokenUser() {
+function refreshTokenUser(): Promise<{refreshToken: string; accessToken: string}> {
   return request(`${address}/auth/token`, {
     method: 'GET',
     mode: 'cors',
@@ -123,7 +118,7 @@ function refreshTokenUser() {
   })
 }
 
-function loginUserRequest({email, password}: TUserData) {
+function loginUserRequest(email: string, password: string): Promise<{user: {name: string; email: string}; accessToken: string; refreshToken: string}> {
   return request(`${address}/auth/login`, {
     method: 'POST',
     headers: {
@@ -148,7 +143,7 @@ function logoutUserRequest() {
   })
 }
 
-function requestOrder(orderNumber: string) {
+function requestOrder(orderNumber: string): Promise<{orders: Array<TOrder>}> {
   return request(`${address}/orders/${orderNumber}`, {
     method: 'GET',
     headers: {
