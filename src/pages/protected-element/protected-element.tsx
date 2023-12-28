@@ -18,12 +18,12 @@ function ProtectedElementPage({onlyUnAuth = false, children, ...rest}: TProtecte
     return null;
   }
 
-  if (onlyUnAuth && user !== undefined) {
+  if (onlyUnAuth && user) {
     const from = location.state || {from: {pathname: '/'}};
     return <Redirect to={from} />
   }
 
-  if (!onlyUnAuth && user === undefined) {
+  if (!onlyUnAuth && !user) {
     return <Redirect to={{
       pathname: "/login",
       state: {from: location}

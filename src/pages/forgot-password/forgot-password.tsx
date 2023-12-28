@@ -31,10 +31,6 @@ function ForgotPasswordPage() {
     localStorage.removeItem('acceptAccess');
   }, [])
 
-  if (user === undefined) {
-    return (<Redirect to="/" />)
-  }
-
   return (
     <>
       {redirect === true && <Redirect to="/reset-password" />}

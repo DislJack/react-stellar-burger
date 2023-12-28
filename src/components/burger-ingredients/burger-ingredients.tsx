@@ -8,24 +8,26 @@ import { useSelector } from '../../services/hooks';
 function BurgerIngredients() {
   const data = useSelector(selectIngredientList);
   const [current, setCurrent] = React.useState<string>('bun');
-  const tabs = useRef<HTMLDivElement | any>(null);
-  const bun = useRef<HTMLHeadingElement | any>(null);
-  const sauce = useRef<HTMLHeadingElement | any>(null);
-  const main = useRef<HTMLHeadingElement | any>(null);
+  const tabs = useRef<HTMLDivElement>(null);
+  const bun = useRef<HTMLHeadingElement>(null);
+  const sauce = useRef<HTMLHeadingElement>(null);
+  const main = useRef<HTMLHeadingElement>(null);
 
   const scrollEvent = () => {
-    const tabsList: number = tabs.current.getBoundingClientRect().bottom;
-    const buns: number = bun.current.getBoundingClientRect().top;
-    const sauces: number = sauce.current.getBoundingClientRect().top;
-    const mains: number = main.current.getBoundingClientRect().top;
-    if (tabsList <= buns) {
-      setCurrent('bun');
-    } else if (tabsList > buns && tabsList <= sauces) {
-      tabsList - buns === Math.min(tabsList - buns, sauces - tabsList, mains - tabsList) ? setCurrent('bun') : setCurrent('souce');
-    } else if (tabsList > sauces && tabsList < mains) {
-      tabsList - sauces === Math.min(tabsList - buns, tabsList - sauces, mains - tabsList) ? setCurrent('souce') : setCurrent('main');
-    } else {
-      setCurrent('main');
+    const tabsList = tabs?.current?.getBoundingClientRect().bottom;
+    const buns = bun?.current?.getBoundingClientRect().top;
+    const sauces = sauce?.current?.getBoundingClientRect().top;
+    const mains = main?.current?.getBoundingClientRect().top;
+    if (tabsList && buns && sauces && mains !== undefined) {
+      if (tabsList <= buns) {
+        setCurrent('bun');
+      } else if (tabsList > buns && tabsList <= sauces) {
+        tabsList - buns === Math.min(tabsList - buns, sauces - tabsList, mains - tabsList) ? setCurrent('bun') : setCurrent('souce');
+      } else if (tabsList > sauces && tabsList < mains) {
+        tabsList - sauces === Math.min(tabsList - buns, tabsList - sauces, mains - tabsList) ? setCurrent('souce') : setCurrent('main');
+      } else {
+        setCurrent('main');
+      }
     }
   }
 

@@ -6,7 +6,7 @@ function useInput(inputValue: string) {
     name: inputValue,
     boolean: false
   });
-  const valueRef = useRef<HTMLInputElement | any>(null);
+  const valueRef = useRef<HTMLInputElement>(null);
   const onChange = (e: TEvent) => {
     setValue({
       ...value,
@@ -18,7 +18,7 @@ function useInput(inputValue: string) {
       ...value,
       boolean: !value.boolean
     });
-    setTimeout(() => valueRef.current.focus(), 0);
+    setTimeout(() => valueRef?.current?.focus(), 0);
   }
   return {value, valueRef, onChange, onIconClick, setValue}
 }

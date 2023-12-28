@@ -12,7 +12,7 @@ type TIngredient = {
 
 const Ingredient: FunctionComponent<TIngredient> = ({ingredient}) => {
   const burger = useSelector(selectBurger);
-  const [, dragRef] = useDrag({
+  const [, dragRef] = useDrag<TIngredientPropType, unknown, unknown>({
     type: 'ingredient',
     item: ingredient
   });

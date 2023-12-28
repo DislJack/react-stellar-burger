@@ -2,6 +2,7 @@ import { authUser, logoutUserRequest, refreshTokenUser, updateUserDataRequest, l
 import { saveTokens } from "../../utils/utils";
 import { SET_USER, SET_AUTH_CHECKED } from "../constants/user-data";
 import { AppDispatch } from "../types";
+import {History} from 'history';
 
 export type TSetUserAction = {
   readonly type: typeof SET_USER;
@@ -19,11 +20,11 @@ export type TUserAction = TSetUserAction | TSetAuthCheckedAction;
 
 
 // utils error function
-function throwError(err: string, history: any) {
+function throwError(err: string, history: History) {
   history.replace('/error', { errorNumber: err.split(' ')[1]});
 }
 
-const updateUserData = (username: string, email: string, password: string, history: any) => (dispatch: AppDispatch) => {
+const updateUserData = (username: string, email: string, password: string, history: History) => (dispatch: AppDispatch) => {
   updateUserDataRequest(username, email, password).then(data => {
     dispatch({type: SET_USER, user: data.user});
   }).catch((err) => {
@@ -46,7 +47,7 @@ const updateUserData = (username: string, email: string, password: string, histo
   })
 }
 
-const checkUserAuth = (history: any) => (dispatch: AppDispatch) => {
+const checkUserAuth = (history: History) => (dispatch: AppDispatch) => {
   if (localStorage.getItem('accessToken')) {
     authUser().then(data => {
       dispatch({type: SET_USER, user: data.user})
@@ -64,7 +65,7 @@ const checkUserAuth = (history: any) => (dispatch: AppDispatch) => {
         })
       } else {
         localStorage.clear();
-        dispatch({type: SET_USER, user: {}});
+        dispatch({type: SET_USER, user: undefined});
       }
     }).finally(() => {
       dispatch({type: SET_AUTH_CHECKED});
@@ -76,7 +77,7 @@ const checkUserAuth = (history: any) => (dispatch: AppDispatch) => {
 
 
 
-const registerUser = (username: string, email: string, password: string, history: any) => (dispatch: AppDispatch) => {
+const registerUser = (username: string, email: string, password: string, history: History) => (dispatch: AppDispatch) => {
   registerUserRequest(username, email, password).then(data => {
     dispatch({type: SET_USER, user: data.user})
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
@@ -87,7 +88,7 @@ const registerUser = (username: string, email: string, password: string, history
   })
 }
 
-const loginUser = (email: string, password: string, history: any) => (dispatch: AppDispatch) => {
+const loginUser = (email: string, password: string, history: History) => (dispatch: AppDispatch) => {
   loginUserRequest(email, password).then(data => {
     dispatch({type: SET_USER, user: data.user});
     saveTokens(data.accessToken.split(' ')[1], data.refreshToken);
@@ -99,7 +100,7 @@ const loginUser = (email: string, password: string, history: any) => (dispatch: 
   })
 }
 
-const logoutUser = (history: any) => (dispatch: AppDispatch) => {
+const logoutUser = (history: History) => (dispatch: AppDispatch) => {
   logoutUserRequest().then(() => {
     history.replace('/login');
   }).catch(err => {

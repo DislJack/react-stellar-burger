@@ -14,7 +14,7 @@ function LoginPage() {
   const [passwordValue, setPasswordValue] = useState<string>('');
   const history = useHistory();
   const dispatch = useDispatch();
-  const password = useRef(null);
+  const password = useRef<HTMLInputElement>(null);
 
   const onChange = (e: TEvent) => {
     setEmailValue(e.target.value);

@@ -21,9 +21,9 @@ function BurgerConstructor() {
   const isLoading = useSelector(store => store.order.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop<TIngredientPropType, void, unknown>({
     accept: 'ingredient',
-    drop(ingredient: TIngredientPropType) {
+    drop(ingredient) {
       dispatch(addIngredient(ingredient));
     }
   });

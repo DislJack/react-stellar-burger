@@ -2,6 +2,7 @@
 import { forgotPasswordRequest, resetPasswordRequest } from "../../utils/burger-api";
 import { SEND_CODE_TO_EMAIL_SUCCESS, RESET_PASSWORD_SUCCESS } from "../constants/auth";
 import { AppDispatch } from "../types";
+import {History} from 'history';
 
 export type TSendCodeToEmailSuccessAction = {
   readonly type: typeof SEND_CODE_TO_EMAIL_SUCCESS;
@@ -15,7 +16,7 @@ export type TResetPasswordSendCodeAction = TSendCodeToEmailSuccessAction | TRese
 
 // Экшен креаторы для функций
 
-const forgotPassword = (email: string, history: any) => (dispatch: AppDispatch) => {
+const forgotPassword = (email: string, history: History) => (dispatch: AppDispatch) => {
   forgotPasswordRequest(email).then(() => {
     dispatch({type: SEND_CODE_TO_EMAIL_SUCCESS})
     // Экшен на успешное направление кода сброса пароля
@@ -26,7 +27,7 @@ const forgotPassword = (email: string, history: any) => (dispatch: AppDispatch) 
   });
 }
 
-const resetPassword = (password: string, token: string, history: any) => (dispatch: AppDispatch) => {
+const resetPassword = (password: string, token: string, history: History) => (dispatch: AppDispatch) => {
   resetPasswordRequest(password, token).then(() => {
     dispatch({type: RESET_PASSWORD_SUCCESS});
     // экшен на успешный сброс.
